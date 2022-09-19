@@ -1,0 +1,53 @@
+\chapter{Complexity Classes} 
+A complexity class consists of a set of problems which have the same rate of growth of a
+particular resource as the input size of the problem increases. The resource which we are
+concerned with here is time. Problems are decided to belong to a particular complexity class
+by running it on a Turing machine.
+The temporary storage of a Turing machine is a tape. The tape is divided into cells,
+each cell contains a symbol from the tape alphabet. A read-write head moves along the cells
+of the tape and can read or write a symbol at a time. The symbols in the tape at the starting
+point form the input and the symbols in the tape in a final state where the machine halts form
+the output. The read-write head on seeing a symbol in a particular state moves to another
+state by changing or retaining the symbol, this is done according to the transition function.
+A Turing machine can be either deterministic or non deterministic. In a non deterministic
+Turing Machine, the machine can move from one particular state to more than one states
+non deterministically. We now recall the definitions of a few complexity class
+
+\section{P}
+\noindent
+P can be described as a complexity class which involves collection of all decision problems
+that can be solved in polynomial time. That is, the answer yes or no for a given decision can
+be decided in polynomial time.A problem belongs to the complexity class P if there exists
+a deterministic Turing machine M, which runs for polynomial time on all valid inputs of
+the problem and halts in a final state.Finding maximum of given array of elements , finding
+lowest common multiple of two numbers, finding a dominating set in a tree, are examples of
+a some problems which belong to P class.
+\section{NP}
+\noindent
+NP can be described as a complexity class which involves the collection of all
+decision problems for which if given an answer,it can be verified correct or not in
+polynomial time.A problem belongs to the complexity class NP if there exists a non
+deterministic Turing machine M, which runs for polynomial time on all valid inputs of
+the problem and halts in a final state. NP stands for non deterministic polynomial time.
+Given a solution of such a problem, it can be verified efficiently in polynomial time by a
+deterministic Turing machine.
+\section{NP-complete}
+\noindent
+NP-Complete is a complexity class which represents the set of all problems X in NP
+for which it is possible to reduce every other NP problem Y to X in polynomial
+time.Intuitively this means that we can solve Y quickly if we know how to solve
+X quickly. Precisely,Y is reducible to X, if there is a polynomial time algorithm f
+to transform instances y of Y to instances x = f (y) of X in polynomial time, with the
+property that the answer to y is yes, if and only if the answer to f (y) is yes.
+\section{NP-Hard}
+\noindent
+
+Intuitively, these are the problems that are at least as hard as
+the NP-complete problems.Note that NP-hard problems do not have to be in NP,
+and they do not have to be decision problems.The precise definition here is that
+a problem X is NP-hard, if there is an NP-complete problem Y, such that Y is reducible
+to X in polynomial time.But since any NP-complete problem can be reduced to any
+other NP-complete problem in polynomial time, all NP-complete problems can be
+reduced to any NP-hard problem in polynomial time. Then,if there is a solution to
+one NP-hard problem in polynomial time, there is solution to all NP problems in
+polynomial time.

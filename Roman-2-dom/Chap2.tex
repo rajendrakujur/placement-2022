@@ -1,0 +1,146 @@
+\chapter{Literature Review}
+\section{Domination}
+\noindent
+We recall the definition of dominating set given in section 1.3. For a given graph $G$, it is clear that the upper bound on domination number is $1 \leq \gamma(G) \leq n$. Both the bounds are sharp, lower bound can obtain for a vertex if its degree is $n-1$ and upper bound can be obtain if $G=(complement)Kn$. If $G$ does not have any isolated vertices then $\gamma(G) \leq n/2$ \cite{Haynes,Ore}. For a graph $G$, $\gamma(G) \leq n[ 1 - \delta (\frac{1}{\delta + 1})^{1+1/ \delta} ]$ \cite{Caro,Haynes}. For a graph $G$, $\ceil{\frac{n}{1+\Delta(G)}} \leq \gamma(G) \leq n - \Delta(G)$ \cite{Berge,Haynes}. \\
+\noindent
+If $G$ has a degree sequences $(d_1,d_2,...,d_n)$ with $d_i \geq d_{i+1}$, then $\gamma(G) \geq min\{ k: k+(d_1+d_2+...+d_k)\geq n\}$ \cite{slater}.
+The value of $\gamma(G)$ can be exactly determined in some classes of graphs. The following are a few such cases.
+\begin{enumerate}[nolistsep]
+\item
+For a complete graph $K_n$, $\gamma(K_n)=1$. 
+\item
+For a wheel graph $W_n$, $\gamma(W_n)=1$.
+\item
+For a complete bipartite graph $K_{p,q}$ where $p \geq 2$ and $q \geq 2$, $\gamma(K_{p,q})=2$. 
+\item
+For a star graph, $S_n$,  $\gamma(S_n)=1$.
+\item
+For a path graph, $P_n$, $\gamma(P_n)= \ceil{\frac{n}{3}} $. 
+\item
+For a cycle graph, $C_n$, $\gamma(C_n)= \ceil{\frac{n}{3}}$.
+\end{enumerate} 
+\noindent
+The problem of finding minimum DS of size at most $k$ of a graph $G$ is NP-complete, where $k$ is a positive integer \cite{Haynes}. The problem is also NP-complete even when restricted to some special classes of graphs such as bipartite graphs \cite{Bertossi}, split graphs \cite{Bertossi}, interval graphs \cite{Haynes} and chordal graphs  \cite{Booth}. But it is polynomial for some classes of graphs like trees \cite{Cockayne2}, strongly chordal graphs \cite{Farber1} and permutation graphs \cite{Farber2}.\\
+\noindent
+The domination problem for a fixed parameter $k$ is W[2]-hard \cite{ppc}.
+\section{Doubly Connected Domination}
+\noindent
+We recall connected dominating set (CDS) definition given in section 1.3. The problem of finding minimum CDS of a given graph $G$ of size at most $k$ is NP-complete where $k$ is a positive integer, for graphs such as split graphs \cite{Las1}, bipartite graphs \cite{Las2} and chordal graphs \cite{Las3}. \smallskip \\
+We defined a \textit{doubly connected dominating set} (DCDS) in section 1.3. The problem of finding minimum doubly connected domination number  of size at most $k$ of a bipartite graph $G$ is NP-complete, where $k$ is a positive integer \cite{dcds}.\\
+Every DCDS contains cut-vertex (support vertex) and at least $n_1(G)-1$ pendant vertices. For $n \geq 2$ vertices of any connected graph $G$, $\dfrac{n}{\Delta(G)+1} \leq \gamma_{cc}(G) \leq 2m-n+1 $ with equality for the upper bound if and only if $G$ is a tree and equality for the lower bound if and only if $\gamma_{cc}(G) = 1$. \\
+In our work the problem of determining minimum DCDS of at most $k$ size of connected graph $G$ proved as NP-complete for chordal bipartite graphs, split graphs and star convex bipartite graph. We have also proved that the problem is W[2]-hard for the fixed parameter $k$, for bipartite and split graph.\\
+\noindent
+Table 2.1 shows the problem complexity of domination, connected domination and doubly connected domination problems for some special classes of graphs. 
+\begin{table}[H]
+\centering
+\begin{tabular}{| m{3.8cm} | m{2cm} | m{3.8cm} | m{5cm} |}
+\hline \hline
+\small \textbf{Graph Class} & \small \textbf{Domination} & \small \textbf{Connected Domination} & \small \textbf{Doubly connected Domination} \\
+\hline \hline
+General Graph & NP-c \cite{Haynes} & NP-c \cite{Haynes} & NP-c \cite{dcds} \\
+%\hline
+%Tree & P \cite{Cockayne2} & & \\ 
+\hline
+Split &  NP-c \cite{Bertossi} & NP-c \cite{Las1} & \textbf{NP-c}[*]  \\
+\hline
+Bipartite & NP-c \cite{Bertossi} & NP-c \cite{Las2} &  NP-c \cite{dcds}\\
+\hline
+Chordal & NP-c \cite{Booth} & NP-c \cite{Las1} & \textbf{NP-c}[*] \\
+\hline
+Chordal Bipartite & NP-c \cite{Brand1} & {NP-c}\cite{Brand1}  & \textbf{NP-c}[*]  \\
+\hline
+Star Convex Bipartite & {NP-c} \cite{tcbg}& P \cite{jiang}& \textbf{NP-c}[*]  \\
+\hline
+\end{tabular}
+\caption{Hardness Results for Domination, Connected Domination and Doubly Connected Domination Problems on different Classes of Graphs. NP-c = NP-complete, [*] = proved in this thesis.}
+\end{table}
+\section{Secure Domination}
+\noindent
+As defined secure domination in Section 1.3, every secure dominating set (SDS) of a graph $G$ is also a dominating set of a graph $G$. Hence $\gamma(G) \leq \gamma_s(G)$. In $G$, let secure dominating set be $S$, we say that vertex $u \in V(G)\setminus S$ is S-defended by $v \in S$ or $u$ S-defends $v$, if $(S \setminus \{ v \}) \cup \{ u \}$ is a DS in $G$. For some graphs, closed formulae of $\gamma_s(G)$ obtained in \cite{Cockayne} are given below:
+\begin{enumerate}
+\item
+For a complete graph $K_n$, $\gamma_s(K_n)=1$. 
+\item
+For a complete bipartite graph $K_{p,q}$, where $p \leq q$ :
+\[
+	\gamma_s (K_{p,q}) = 
+	\begin{cases}
+	q,& p = 1 \\
+	p,& 2 \leq p \leq 3 \\
+	4,& p \geq 4.
+	\end{cases} 
+\] 
+\item
+For a complete t-partite graph $K_{p_1,p_2,p_3,...,p_t}$ where $p_1 \leq p_2 \leq p_3 ... \leq p_t$ and $t \geq 3$ :
+\[
+\gamma_s(K_{p_1,p_2,....,p_t}) = 
+\begin{cases}
+2,& p_1 = 1, p_2 \leq 2 \\
+2,& p_1 = 2 \\
+3,& Otherwise.
+\end{cases}
+\]
+\item
+For a path graph, $P_n$, $\gamma_s(P_n)= \ceil{3n/7}$. 
+\item
+For a cycle graph, $C_n$, $\gamma_s(C_n)= \ceil{3n/7}$.
+\end{enumerate} 
+\noindent
+The problem of finding minimum SDS of size at most $k$, where $k$ is positive integer is NP-complete for split graphs and bipartite graphs \cite{Meroune}. 
+\section{Secure Doubly Connected Domination}
+\noindent
+A \textit{secure connected dominating set} (SCDS) is SDS of a graph $G$ and $G[S]$ is connected and $\forall u \in V(G) \setminus S$, $\exists v \in S$ such that $(S \setminus \{v \}) \cup \{ u \}$ is a CDS of $G$. The \textit{secure connected domination number} of $G$ is defined as the minimum cardinality of a SCDS and is denoted by $\gamma_{sc}(G)$. For a graph $G$, the problem of finding minimum SCDS of size at most $k$, where $k$ is a positive integer, is NP-complete for split graphs and bipartite graphs \cite{pvsr}.\\
+We define the secure doubly connected dominating set in section 1.3. Every SDCDS contains every cut-vertex (support vertex) and pendant vertex \cite{sdcds}. $\gamma_{scc}(G)=1$ if and only if $G$ is a complete graph \cite{sdcds}. $\gamma_{scc}(G)=2$ for a connected graph $G$, if and only if a connected graph $H$ exists such that $G=K_2+H$ \cite{sdcds}. For a connected graph $G$, $\gamma_{scc}(G)=n$ if and only if for every two adjacent vertices in $G$, at least one of these is a cut-vertex. For $n \geq 2$ vertices of any connected graph $G$, $\dfrac{n}{\Delta(G)+1} \leq \gamma_{scc}(G) \leq 2m-n+2 $ with equality for the upper bound if and only if $G$ is a tree and equality for the lower bound if and only if $\gamma_{scc}(G) = 1$.\\
+Let $P_n$, $T_n$ and $K_{1,n-1}$ be the path, tree and star graphs respectively with $n \geq 3$ vertices, then $\gamma_{scc}(T_n)=\gamma_{scc}(P_n)=\gamma_{scc}(K_{1,n-1})=n$ \cite{sdcds}.\\
+\noindent
+In our work we have proved that the problem is NP-complete for chordal bipartite graph and split graph. We have also proved that, the problem for split graph is W[2]-hard for a fixed parameter $k$.\\
+\noindent
+Table 2.2 shows the problem complexity of secure domination, secure connected domination and secure doubly connected domination problems for some special classes of graphs.
+\begin{table}[H]
+\centering
+\begin{tabular}{| m{3cm} | m{3.3cm} | m{3.5cm} | m{3.5cm} |}
+\hline \hline
+\small \textbf{Graph Class} & \small \textbf{Secure Domination} & \small \textbf{Secure Connected Domination} & \small \textbf{Secure Doubly Connected Domination} \\
+\hline \hline
+General Graph & NP-c \cite{Meroune} & NP-c \cite{pvsr} & \textbf{NP-c}[*] \\ 
+\hline
+Split &  NP-c \cite{Meroune} & NP-c \cite{pvsr}  &  \textbf{NP-c}[*]\\
+%\hline
+%Bipartite & NP-c \cite{Meroune} &  &   \\
+\hline
+Chordal & NP-c \cite{Meroune} & NP-c \cite{pvsr} & \textbf{NP-c}[*] \\
+\hline
+Chordal Bipartite & {NP-c} \cite{Brand1} &   & \textbf{NP-c}[*]  \\
+\hline
+\end{tabular}
+\caption{Hardness Results for Secure Domination, Secure Connected Domination and Secure Doubly Connected Domination Problems on different Classes of Graphs. NP-c = NP-complete, [*] = proved in this thesis.}
+\end{table}
+\noindent
+\section{Perfect Domination}
+\noindent
+We recall the definition of perfect domination given in section 1.3. The problem of finding minimum PDS of a graph $G$ of size at most $k$, where $k$ is a positive number, is NP-complete even when restricted to bipartite graphs and chordal graphs \cite{Yen}.\\
+A PDS $D$ is \textit{perfect connected dominating set} (PCDS) if $G[D]$ is connected. The \textit{perfect connected domination number} of $G$ is the minimum cardinality of a perfect connected dominating set in $G$ and is denoted by $\gamma_{pc}(G)$.\\
+In our work, the problem of finding a minimum PCDS of size at most $k$ of a graph $G$ is proved NP-complete for bipartite graphs.\\   
+We defined the secure perfect dominating set in section 1.3. For some class of graphs, there exists a exact value of perfect secure domination. 
+\begin{enumerate}
+\item For the path $P_n$, we have $\gamma_{ps}(G)(P_n)= \floor{\frac{3n}{7}}$.
+\item For the path $C_n$ we have $\gamma_{ps}(G)(C_n)  = \floor{\frac{3n}{7}}$.
+\item For the complete bipartite graph $G = K_{r,s}$ with $r\leq s$ we have
+\[
+\gamma_{ps}(K_{r,s}) = \begin{cases}
+s, & \text{if }r=1 \\
+2, & \text{if }r=s=2 \\
+r+s, & \text{otherwise }. \\
+\end{cases} 
+\]
+\item For wheel graph $W_n$ with $n \geq 6$. Then
+
+\[
+\gamma_{ps}(W_n) = \begin{cases}
+k, & \text{if }n=3k \\
+k+1, & \text{if }n=3k+1 \\
+k+2, & \text{if }n=3k+2. \\
+\end{cases} 
+\]
+\end{enumerate}
+

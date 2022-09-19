@@ -1,0 +1,74 @@
+\chapter{Parameterized Complexity of Variants of Connected Domination in Graphs} 
+\noindent
+In this chapter, we presents the result obtained for parameterized complexity of the decision version of doubly connected domination and secure doubly connected domination problem.
+\section{Parameterized Complexity of Doubly Connected Domination}
+\noindent
+This section contains parameterized complexity result of a doubly connected domination problem for bipartite and split graphs.
+\subsection{Doubly connected domination in bipartite graphs}
+\noindent 
+For bipartite graphs, the parameterized version of the doubly connected domination problem is defined as follows:\\
+\textbf{DOUBLY CONNECTED DOMINATION BIPARTITE GRAPHS (DCDB)}\\
+\indent \textbf{Instance :} A connected bipartite graph $G$ and a positive integer $k$.\\
+\indent \textbf{Parameter :} $k$.\\
+\indent \textbf{Question :} Does $G$ have a DCDS of size at most $k$? \smallskip
+
+\noindent For proving DCDB is W[2]-hard, we reduce from W[2]-hard problem DOMINATION \cite{ppc}, defined as follows:\\
+\textbf{DOMINATION (DOM)}\\
+\indent \textbf{Instance :} A simple, undirected and connected graph $G=(V,E)$ and a positive integer $k$.\\
+\indent \textbf{Parameter :} $k$.\\
+\indent \textbf{Question :} Does $G$ have a DS of size at most $k$?
+\begin{theorem}
+DCDB is W[2]-hard.
+\end{theorem}
+\begin{proof}
+From the NP-hardness proof of doubly connected domination in bipartite graphs \cite{dcds} and the fact that DOM is W[2]-hard, it follows that DCDB is W[2]-hard.
+\end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Doubly connected domination in split graphs}
+\noindent 
+For split graphs, the parameterized version of the doubly connected domination problem is defined as follows:\\
+\textbf{DOUBLY CONNECTED DOMINATION SPLIT GRAPHS (DCDMS)}\\
+\indent \textbf{Instance :} A connected split graph $G$ and a positive integer $k$.\\
+\indent \textbf{Parameter :} $k$.\\
+\indent \textbf{Question :} Does there exist a DCDS of size at most $k$?\\
+For proving DCDMS is W[2]-hard, we reduce from known W[2]-hard DOM problem.
+\begin{theorem}
+DCDMS is W[2]-hard.
+\end{theorem}
+\begin{proof}
+Given a positive integer $k$ and an instance of $G=(V,E)$ of DS, we construct a split graph $G^*=(V,E)$ whose the vertex set $V(G^*)$ is partitioned into two disjoint subsets a maximum clique $Q$ and an independent set $I$. We create two vertices in $G^*$ for each vertex $x \in V(G)$ such that one belongs to $Q$ and other $I$. Thus $|Q|=|I|$. If there is an edge between $u$ and $v$ in $G$ then add edge between $u$ and $v$ in $G^*$, $u \in Q$, $v \in I$ and add edge between $v$ and $u$ in $G^*$, $v \in Q$, $u \in I$. Thus $V(G^*)=Q \cup I$ and $E(G^*)=\lbrace (x_i,x_j): 1 \leq i,j \leq n ~\&~ i \neq j~\&~ (x_i, x_j) \in E(G)~\&~ x_i \in Q~\&~ x_j \in I \rbrace \cup \lbrace (x_i,x_i): 1 \leq i \leq n~\&~ x_i \in Q~\&~ x_i \in I \rbrace \cup \lbrace (x_i,x_j): 1 \leq i,j \leq n~\&~ i \neq j~\&~ (x_i,x_j) \in Q \rbrace  $. Clearly, in polynomial time, the constructed graph $G^*$  from $G$ is a split graph. Further we show that a DS of at most $k$ size in $G$ if and only if a DCDS of at most $k$ size in $G^*$.\\
+Assume $|D| \leq k$ be a DS of $G$. Let $D' = \lbrace x_i: x_i \in D~\&~ x_i \in Q \rbrace $, thus $|D'| \leq k$. Each vertex in $D'$ belongs to $Q$, $G^*[D']$ is connected and vertices in $(V(G^*)\setminus D') \cap Q$ are dominated. Since vertices of $D$ dominates every vertex in $V(G)\setminus D$, hence every vertex of $(V(G^*)\setminus D') \cap I$ is also dominated by at least one vertex of $D'$. Since every vertex of $I$ is dominated and also $Q$ and $I$ are mirrors of each other. Hence $G^*[V(G^*) \setminus D']$ is connected. Thus $D'$ is a DCDS of $G^*$.\\
+Assume that $|D'|$ be a DCDS of $G^*$. Consider the following cases:\\
+\textit{Case 1:} If $D' \cap Q \neq \phi$ and $D' \cap I = \phi$. Clearly, each vertex $u \in I$ gets dominated by at least one vertex in $D'$. Hence each vertex in $V(G) \setminus D'$ is dominated by $D'$. Thus $D'$ is a DS of $G$ with $|D'| \leq k$.\\
+\textit{Case 2:} $D' \cap Q \neq \phi$ and $D' \cap I \neq \phi$. Replace each vertex $u \in D' \cap I$ with the corresponding vertex (i.e. mirror vertex) $u' \in Q$ to obtain $D''$. The modified set $D''$ contains only vertices from $Q$, $|Q| \leq k$ and is a DCDS of $G^*$. It follows from the similar argument given in case 1 that $D''$ is a DS of $G$.\\
+Thus DCDMS is W[2]-hard.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Parameterized Complexity of Secure Doubly Connected Domination}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+This section contains parameterized complexity result of a secure doubly connected domination problem for split graphs. 
+\subsection{Secure doubly connected domination in split graphs}
+\noindent For split graphs, the parameterized version of the secure doubly connected domination problem is defined as follows:\\ 
+ \textbf{SECURE DOUBLY CONNECTED DOMINATION SPLIT GRAPHS (SDCD)}\\
+\indent \textbf{Instance :} A connected split graph $G=(V,E)$ and a positive integer $k$.\\
+\indent \textbf{Parameter :} $k$.\\
+\indent \textbf{Question :} Does there exists a SDCDS of size at most $k$?\\
+For proving SDCD is W[2]-hard, we reduce from DCDMS which has been proved as W[2]-hard in Theorem 6.1.2.
+
+\begin{theorem}
+SDCD is W[2]-hard.
+\end{theorem}
+\begin{proof}
+Given a positive integer $k$ and a split graph $G=(V,E)$ whose vertex set is partitioned into two disjoint subsets, a maximum clique $Q$ and an independent set $I$. We construct another split graph $G^*=(V,E)$ from $G$ such that the vertex set is partitioned into two subsets a clique $Q^*$ and an independent set $I^*$. $V(G^*) = V(G) \cup \lbrace x \rbrace $, where $x$ is a additional vertex. $E(G^*) = E(G) \cup \lbrace (x, u) : \forall u \in Q\rbrace \cup \lbrace (x, v) : \forall v \in I$ $\&$ $d_G(v) > 1\rbrace $. The graph $G^*$ is constructed in polynomial time is a split graph, where the clique vertex set $Q^*=Q\cup \lbrace x \rbrace$ and independent vertex set $I^*=I$. Also $|V(G^*)| = |V(G)|+1$ and $|E(G^*)|=|E(G)|+|V(G)|-n_1(G)$, where $n_1(G)$ denotes number of pendant vertices. Further we show that a DCDS of at most $k$ size in $G$ if and only if a SDCDS of at most $k + 1$ size  in $G^*$. \\
+\noindent Assume that $|D| \leq k$ be a DCDS of graph $G$. Let $S=D \cup \lbrace x \rbrace$ with $|S|\leq k+1$. The set S is a SDS as $\forall v \in V(G^*)\setminus S$, $(S\setminus \lbrace x \rbrace) \cup \lbrace v \rbrace$ in $G^*$ is a DCDS. The graphs $G^*[V(G^*)\setminus S]$ and $G^*[S]$ are also connected, hence set S is a SDCDS of $G^*$.\\
+Conversely, suppose $|S| \leq k+1$ is a SDCDS of graph $G^*$. We have two cases:\\
+\textit{Case 1:} $x \in S$. Let $S'=S \cap V(G)$. Clearly $|S'| \leq k$. Consider the following two sub cases:\\
+\textit{Case 1.1:} $G[ S']$ \textit{is connected}. Clearly the graph $G[V(G) \setminus S']$ is connected. To prove that the set $S'$ is a DS of $G$, by contradiction, assume that $S'$ is not a DS of $G$. A vertex $v \in V(G)\setminus S'$ exists in $G$ such that $N[v] \cap S' = \phi$. Which implies that vertex $v$ was only dominated by $x$ in $G^*$ and the graph $G^*[ (S \setminus \lbrace x \rbrace) \cup \lbrace v \rbrace]$ is not connected, which is a contradiction. Hence $S'$ is a DS of $G$. Therefore $S'$ is a DCDS of $G$.\\
+\textit{Case 1.2:} $G[ S']$ \textit{is not connected}. Since graph $G$ is a split graph, hence there exists at least one isolated vertex $w \in (S' \cap I)$ in $G[S']$. Let $W = \lbrace w:d_{G[ S']}(w) = 0 \hspace{1ex} \& \hspace{1ex} w \in S' \rbrace $. Since $G^*[ S ]$ is connected, all the vertices in $W$ are only adjacent to $x$ in $G^*[ S]$. From the construction of graph $G^*$, clearly $d_G(w) > 1 $, $\forall w \in W$. Replace an isolated vertex $w$ in $G[ S']$ with a vertex in $N_G[w]$ in $G[ V(G) \setminus S' ]$ until $G[S']$ becomes connected. Let $S''$ be the modified $S'$ set. Clearly $|S''| = |S'|$ and $G[ V(G)\setminus S'']$ is also connected as $d_G(w) > 1$. From Case 1.1 it follows that, $S''$ is also a DS of $G$. Hence $S''$ is a DCDS of $G$.\\
+\textit{Case 2:} $x \notin S$. Let $R= (S\setminus \lbrace v \rbrace) \cup \lbrace x \rbrace $, where $v \in S$. By definition of SDCDS, $R$ is a DCDS of $G^*$. From the construction of $G^*$, it follows that $N(v) \subseteq N(x)$. Therefore $R$ is a SDCDS of $G^*$.\\
+Since $x \in R$, by applying Case 1 we can get a DCDS of $G$ of size at most $k$ from $R$. Hence SDCD is W[2]-hard.
+\end{proof}
+

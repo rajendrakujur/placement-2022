@@ -1,0 +1,177 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[
+ inner=2.5cm, % Inner margin
+	outer=3.8cm, % Outer margin
+	bindingoffset=2cm, % Binding offset
+	top=1.5cm, % Top margin
+	bottom=1.5cm
+]{geometry}
+\linespread{1.5}
+
+\newcommand\floor[1]{\lfloor#1\rfloor}
+\newcommand\ceil[1]{\lceil#1\rceil}
+	
+\bibliographystyle{apalike}
+%\usepackage{algorithm,algpseudocode,float}
+%\algrenewcommand\alglinenumber[1]{\tiny #1:}
+
+%\usetikzlibrary{external}
+%\tikzset{external/system call={pdflatex \tikzexternalcheckshellescape -halt-on-error
+%-interaction=batchmode -jobname "\image" "\texsource" &&
+%dvips -o "\image".ps "\image".dvi;
+%ps2eps "\image.ps"}}
+%\tikzexternalize
+
+\usepackage{enumerate}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{amsmath,latexsym,amssymb, mathrsfs}
+\usepackage{varioref,amssymb,amsthm}
+\usepackage{pstricks,graphicx}
+%\usepackage{glossaries}
+\usepackage{titlesec}
+\usepackage{epstopdf}
+\usepackage{anysize}
+\usepackage{epsfig}
+\usepackage{epstopdf}
+%\usepackage{algorithm2e}
+%\usepackage{algorithmic}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{subfigure}
+\usepackage{array}
+\usepackage{longtable}
+\renewcommand\arraystretch{1.3} 
+\usepackage{enumerate}
+\usepackage{varioref,tabularx,longtable,multirow,array,float}
+\usepackage{amsmath,latexsym,amssymb,tikz}
+\usepackage{varioref,amssymb,amsthm}
+\usepackage{mathrsfs}
+\usepackage{times}
+\usepackage[numbers]{natbib}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{algorithm,algpseudocode,float}
+\algrenewcommand\alglinenumber[1]{\tiny #1:}
+\usepackage{csquotes}
+%\algrenewcommand\algorithmicindent{2.0em}%
+%\usepackage{algorithmic}
+\usepackage{longtable}
+
+\usepackage{amsfonts}
+%\usepackage{endmmacro}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+
+\usepackage{xpatch}
+%\usepackage{subcaption}
+%\usepackage{tikz}
+
+%\usetikzlibrary{external}
+%\tikzset{external/system call={pdflatex \tikzexternalcheckshellescape -halt-on-error
+%-interaction=batchmode -jobname "\image" "\texsource" &&
+%dvips -o "\image".ps "\image".dvi;
+%ps2eps "\image.ps"}}
+%\tikzexternalize
+
+\makeatletter
+\xpatchcmd{\algorithmic}{\itemsep\z@}{\itemsep=-1ex plus-1pt}{}{}
+\makeatother
+
+\makeatletter
+\newenvironment{breakablealgorithm}
+  {% \begin{breakablealgorithm}
+   \begin{center}
+     \refstepcounter{algorithm}% New algorithm
+     \hrule height.8pt depth0pt \kern2pt% \@fs@pre for \@fs@ruled
+     \renewcommand{\caption}[2][\relax]{% Make a new \caption
+       {\raggedright\textbf{\ALG@name~\thealgorithm} ##2\par}%
+       \ifx\relax##1\relax % #1 is \relax
+         \addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##2}%
+       \else % #1 is not \relax
+         \addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##1}%
+       \fi
+       \kern2pt\hrule\kern2pt
+     }
+  }{% \end{breakablealgorithm}
+     \kern2pt\hrule\relax% \@fs@post for \@fs@ruled
+   \end{center}
+  }
+\makeatother
+
+\usepackage{tikz}
+\newcommand\tikzmark[1]{%
+  \tikz[remember picture,overlay]\node[inner sep=2pt] (#1) {};}
+\newcommand\DrawBox[3][]{%
+  \tikz[remember picture,overlay]\draw[#1] ([xshift=-3.5em,yshift=7pt]#2.north west) rectangle (#3.south east);}
+
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\OUTPUT{\item[\algorithmicoutput]}
+
+\titleformat{\section}{\normalsize\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+
+\titleformat{\chapter}[display]
+{\normalfont\large\filcenter\bfseries}
+{
+\large\MakeUppercase{\chaptertitlename} \thechapter}
+{14pt}
+{
+\large}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{Definition}{Definition}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{case}{Case}
+\newtheorem{subcase}{Case}
+\numberwithin{subcase}{case}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+\thispagestyle{empty}
+\input{Cover}
+\newpage
+\pagenumbering{roman}
+\setcounter{page}{2}
+\input{Dedication}
+\newpage
+\input{Certificate}
+\newpage
+\addcontentsline{toc}{chapter}{Abstract}
+\input{Abstract} 
+\newpage
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\input{Acknowledgements}
+\renewcommand\contentsname{\large \textbf{Table of Contents}}
+\addcontentsline{toc}{chapter}{Table of Contents}
+\tableofcontents
+\newpage
+\renewcommand\listfigurename{\large \textbf{List of Figures}}
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+\thispagestyle{empty}
+\bigskip \bigskip
+\newpage
+\thispagestyle{empty}
+%\input{Abstract} 
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\input{Chap1}
+\input{Chap2}  
+\input{Chap3}
+\input{Chap4}
+\input{Chap5}
+\input{Chap6}
+\input{Chap7}
+\renewcommand{\bibname}{References}
+\addcontentsline{toc}{chapter}{References}  
+\input{Refemodel}  
+\end{document}

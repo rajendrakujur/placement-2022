@@ -1,0 +1,31 @@
+\chapter{Conclusion and Future Research} 
+\noindent
+In this thesis we studied the algorithmic complexity of three variant of connected domination, namely, doubly connected domination, secure doubly connected domination and secure perfect connected domination for some classes of graphs. In chapter 3, we proved that for split graphs, chordal bipartite graphs and star convex bipartite graphs the DCDOM is NP-complete. And in chapter 6, for split graphs and bipartite graphs, we proved that DCDOM is still W[2]-hard. In chapter 3, for split graphs and chordal bipartite graphs, we proved that SDCDOM is NP-complete. And in chapter 6, we proved that SDCDOM is still W[2]-hard for split graphs. In chapter 5, We proved that PCDOM is NP-complete even when restricted to bipartite graphs. In chapter 4, we introduced another variant of secure domination as secure perfect connected domination and obtained bounds on $\gamma_{spc}$ and in chapter 5, we first proved that SPCDOM is NP-complete for arbitrary graphs, further SPCDOM is NP-complete for bipartite graphs and star convex bipartite graphs. Following are the few open problems and questions highlighted from our work.
+\begin{enumerate}
+\item
+Investigating the complexity of secure doubly connected domination when restricted to star convex bipartite graphs is interesting.\\
+\textbf{Secure Doubly Connected Domination Problem for Star Convex Bipartite Graphs (SDCDSC)}\\
+\indent \textbf{Instance}: A connected star convex bipartite graph $G(V,E)$ and a positive integer $k$.\\
+\indent \textbf{Question}: $\gamma_{scc}(G) \leq k$? 
+\item
+Investigating the parameterized complexity of secure doubly connected domination when restricted to bipartite graphs is also interesting. \\
+\textbf{Secure Doubly Connected Domination Problem for Bipartite Graphs (SDCDB)}\\
+\indent \textbf{Instance}: A connected bipartite graph $G(V,E)$ and a positive integer $k$.\\
+\indent \textbf{Parameter}: $k$. \\
+\indent \textbf{Question}: Does there exists a SDCDS of size at most $k$? 
+\item 
+In chapter 4, we have introduced secure perfect connected domination, it is interesting to investigate the bounds of corona of graphs, Cartesian product of graphs, etc. It is also interesting to investigate the polynomial time algorithm for different classes of graphs such as block graphs, etc.
+\item
+In chapter 5, we have proved NP-complete for perfect connected domination problem and secure perfect connected domination problem. It is interesting to investigate the parameterized complexity for both of these problems.\smallskip \\ 
+The parameterized version of perfect connected domination problem is defined as follows:\\
+\textbf{Perfect Connected Domination Problem for Graphs (PCDOM)}\\
+\indent \textbf{Instance}: A simple, undirected and connected graph $G(V,E)$ and a positive integer $k$.\\
+\indent \textbf{Parameter}: $k$. \\
+\indent \textbf{Question}: Is $\gamma_{pc}(G) \leq k$? \smallskip \\
+The parameterized version of secure perfect connected domination problem is defined as follows:\\
+\textbf{Secure Perfect Connected Domination Problem for Graphs (SPCDOM)}\\
+\indent \textbf{Instance}: A simple, undirected and connected graph $G(V,E)$ and a positive integer $k$.\\
+\indent \textbf{Parameter}: $k$. \\
+\indent \textbf{Question}: Is $\gamma_{spc}(G) \leq k$? 
+
+\end{enumerate}

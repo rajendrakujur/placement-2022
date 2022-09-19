@@ -1,0 +1,57 @@
+\BOOKMARK [0][-]{figure.caption.2}{Abstract}{}% 1
+\BOOKMARK [0][-]{figure.caption.2}{Acknowledgements}{}% 2
+\BOOKMARK [0][-]{figure.caption.2}{Table of Contents}{}% 3
+\BOOKMARK [0][-]{chapter*.3}{List of Figures}{}% 4
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 5
+\BOOKMARK [1][-]{section.1.1}{Graph Theory and Domination}{chapter.1}% 6
+\BOOKMARK [1][-]{section.1.2}{Historical Background}{chapter.1}% 7
+\BOOKMARK [1][-]{section.1.3}{Basic Definition and Terminologies}{chapter.1}% 8
+\BOOKMARK [1][-]{section.1.4}{Applications of Domination and its Variants}{chapter.1}% 9
+\BOOKMARK [2][-]{subsection.1.4.1}{Radio Station}{section.1.4}% 10
+\BOOKMARK [2][-]{subsection.1.4.2}{Bus Routing}{section.1.4}% 11
+\BOOKMARK [1][-]{section.1.5}{Graph Classes}{chapter.1}% 12
+\BOOKMARK [2][-]{subsection.1.5.1}{Bipartite Graphs}{section.1.5}% 13
+\BOOKMARK [2][-]{subsection.1.5.2}{Chordal Graphs}{section.1.5}% 14
+\BOOKMARK [2][-]{subsection.1.5.3}{Split Graphs}{section.1.5}% 15
+\BOOKMARK [2][-]{subsection.1.5.4}{Chordal Bipartite Graphs}{section.1.5}% 16
+\BOOKMARK [2][-]{subsection.1.5.5}{Star Convex Bipartite Graphs}{section.1.5}% 17
+\BOOKMARK [2][-]{subsection.1.5.6}{Wheel Graphs}{section.1.5}% 18
+\BOOKMARK [2][-]{subsection.1.5.7}{Fan Graphs}{section.1.5}% 19
+\BOOKMARK [2][-]{subsection.1.5.8}{Windmill Graphs}{section.1.5}% 20
+\BOOKMARK [2][-]{subsection.1.5.9}{Trees}{section.1.5}% 21
+\BOOKMARK [1][-]{section.1.6}{Complexity Classes}{chapter.1}% 22
+\BOOKMARK [2][-]{subsection.1.6.1}{P}{section.1.6}% 23
+\BOOKMARK [2][-]{subsection.1.6.2}{NP}{section.1.6}% 24
+\BOOKMARK [2][-]{subsection.1.6.3}{NP-hard}{section.1.6}% 25
+\BOOKMARK [2][-]{subsection.1.6.4}{NP-complete}{section.1.6}% 26
+\BOOKMARK [1][-]{section.1.7}{Parameterized Complexity}{chapter.1}% 27
+\BOOKMARK [1][-]{section.1.8}{Chapter Summary}{chapter.1}% 28
+\BOOKMARK [0][-]{chapter.2}{Literature Review}{}% 29
+\BOOKMARK [1][-]{section.2.1}{Domination}{chapter.2}% 30
+\BOOKMARK [1][-]{section.2.2}{Doubly Connected Domination}{chapter.2}% 31
+\BOOKMARK [1][-]{section.2.3}{Secure Domination}{chapter.2}% 32
+\BOOKMARK [1][-]{section.2.4}{Secure Doubly Connected Domination}{chapter.2}% 33
+\BOOKMARK [1][-]{section.2.5}{Perfect Domination}{chapter.2}% 34
+\BOOKMARK [0][-]{chapter.3}{Complexity Classes}{}% 35
+\BOOKMARK [1][-]{section.3.1}{P}{chapter.3}% 36
+\BOOKMARK [1][-]{section.3.2}{NP}{chapter.3}% 37
+\BOOKMARK [1][-]{section.3.3}{NP-complete}{chapter.3}% 38
+\BOOKMARK [1][-]{section.3.4}{NP-Hard}{chapter.3}% 39
+\BOOKMARK [0][-]{chapter.4}{Secure Perfect Connected Domination in Graphs}{}% 40
+\BOOKMARK [1][-]{section.4.1}{Secure Perfect Connected Dominating Set}{chapter.4}% 41
+\BOOKMARK [1][-]{section.4.2}{Some Results on Secure Perfect Connected Domination}{chapter.4}% 42
+\BOOKMARK [0][-]{chapter.5}{Algorithmic Complexity of Variants of Perfect Connected Domination in Graphs}{}% 43
+\BOOKMARK [1][-]{section.5.1}{Complexity of Perfect Connected Domination}{chapter.5}% 44
+\BOOKMARK [2][-]{subsection.5.1.1}{Perfect connected domination in bipartite graphs}{section.5.1}% 45
+\BOOKMARK [1][-]{section.5.2}{Complexity of Secure Perfect Connected Domination}{chapter.5}% 46
+\BOOKMARK [2][-]{subsection.5.2.1}{Secure perfect connected domination in arbitrary graphs}{section.5.2}% 47
+\BOOKMARK [2][-]{subsection.5.2.2}{Secure perfect connected domination in bipartite graphs}{section.5.2}% 48
+\BOOKMARK [2][-]{subsection.5.2.3}{Secure perfect connected domination in star convex bipartite graphs}{section.5.2}% 49
+\BOOKMARK [0][-]{chapter.6}{Parameterized Complexity of Variants of Connected Domination in Graphs}{}% 50
+\BOOKMARK [1][-]{section.6.1}{Parameterized Complexity of Doubly Connected Domination}{chapter.6}% 51
+\BOOKMARK [2][-]{subsection.6.1.1}{Doubly connected domination in bipartite graphs}{section.6.1}% 52
+\BOOKMARK [2][-]{subsection.6.1.2}{Doubly connected domination in split graphs}{section.6.1}% 53
+\BOOKMARK [1][-]{section.6.2}{Parameterized Complexity of Secure Doubly Connected Domination}{chapter.6}% 54
+\BOOKMARK [2][-]{subsection.6.2.1}{Secure doubly connected domination in split graphs}{section.6.2}% 55
+\BOOKMARK [0][-]{chapter.7}{Conclusion and Future Research}{}% 56
+\BOOKMARK [0][-]{Item.21}{References}{}% 57

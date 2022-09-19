@@ -1,0 +1,105 @@
+\chapter{Algorithmic Complexity of Variants of Perfect Connected Domination in Graphs} 
+\noindent
+This chapter presents the NP-completeness result obtained for the decision version of perfect connected domination and secure perfect connected domination problem.
+\section{Complexity of Perfect Connected Domination}
+\noindent
+This section contains algorithmic complexity result obtained for bipartite graphs for the problem of perfect connected domination problem.
+\subsection{Perfect connected domination in bipartite graphs}
+\noindent  
+Decision version of the perfect connected domination problem for bipartite graphs is defined as follows:\\
+\textbf{PERFECT CONNECTED DOMINATION BIPARTITE GRAPHS (PCDOMB)}\\
+\indent \textbf{Instance:} A connected bipartite graph $G=(V,E)$ and a positive integer $l$.\\
+\indent \textbf{Question:} Does there exist a PCDS of size at most $l$ in $G$?\\
+For proving PCDOMB is NP-complete, we reduce from a NP-complete problem EXACT 3 SET COVER, as defined below:\\
+\textbf{EXACT 3 SET COVER (X3C)}\\
+\indent \textbf{Instance:} A finite set $X$, $|X|=3q$ for an integer $q$ and a collection $C$ of 3-element subsets of $X$.\\
+\indent \textbf{Question:} Does there exist a $C' \subseteq C$ such that every element of $X$ occurs exactly in one \\ 
+\indent \indent \indent \indent   \hspace{1ex} member of $C'$?
+
+%\newtheorem{theorem}{Theorem}
+\begin{theorem}
+PCDOMB is NP-complete.
+\begin{proof}
+Clearly, the PCDS can be checked in polynomial time hence PCDOMB is a member of NP.\\
+Assume that we have an arbitrary instance of X3C as $X=\lbrace x_1,\ldots ,x_{3q} \rbrace$ and $C=\lbrace c_1, \ldots,c_m \rbrace$. We construct a bipartite graph $G=(V,E)$ from the instance eof X3C as follows. Each element of $X$ add a new vertex in $G$ and each element of $C$ add a path $P_2:u_i-c_i$ in $G$. There is an edge between vertices of $X$ and $C$ if $x_i \in c_j$. Along with these vertices two $P_2$ namely $p_1-p_2, r_1-r_2$ are added and $p_1$ is made adjacent to each vertex $c_i$ where $1 \leq i \leq m$ and $r_1$ is made adjacent to each vertex $u_i$ where $1 \leq i \leq m$. Thus $V = A \cup B$, where $A=\lbrace c_i : 1 \leq i \leq m \rbrace \cup \lbrace p_2, r_1 \rbrace $ and $B=\lbrace x_i : 1 \leq i \leq 3q \rbrace \cup \lbrace u_i : 1 \leq i \leq m \rbrace \cup \lbrace p_1, r_2 \rbrace $; $E=\lbrace (c_i,u_i): 1\leq i \leq m \rbrace \cup \lbrace (c_i,x_j):1 \leq i \leq m$ $,$ $1 \leq j \leq 3q$ $\&$ $ x_j \in c_i \rbrace \cup \lbrace (p_1,c_i), (r_1,u_i): 1\leq i \leq m \rbrace \cup \lbrace (p_1,p_2),(r_1,r_2) \rbrace $. Clearly the constructed graph $G$ with $|V|=2m+3q+4$ and  $|E|=6m+2$ is a bipartite graph. Thus in polynomial time, from an instance of X3C we can construct graph $G$. Further we show that X3C has a solution if and only if a PCDS of at most $k=2q+2$ size in $G$.\\
+Let $C'$ be a solution of X3C and let $D = \lbrace c_i,u_i : c_i \in C' \rbrace \cup \lbrace p_1,r_1 \rbrace$. Clearly $|D|=2q+2$. All the vertices of $X$ are dominated by unique vertex of $C$ and $\forall c_i, c_i \notin D$ and $p_2$ are dominated by unique vertex $p_1$ and similarly, $\forall u_i, u_i \notin D$ and $r_2$ are dominated by unique vertex $r_1$. Vertices's $p_1,r_1$ is connected to each $c_i,u_i$ respectively and $c_i,u_i$ is $P_2$, $G[D]$ is connected. Hence $D$ is a PCDS of $G$.\\ 
+Conversely, assume that a PCDS $D$ of $G$ of size at most $2q+2$. Then the following claims hold:\\
+{\textit{Claim 1}:} $p_1,r_1 \in D$.\\
+\textit{Proof of claim.} By contradiction, if $p_1 \notin D$ (or $r_1 \notin D$), then if $p_2 \in D$ $(r_2 \in D)$ then $G[D]$ is not connected otherwise $p_2$ $(r_2)$ is undominated, which is a contradiction.\\
+{\textit{Claim 2}:} If $c_i \in D$ then $u_i \in D$ and vice-versa.\\
+\textit{Proof of claim.} By contradiction, assume $\exists c_a, c_a\in D$ and $u_a \notin D$. Clearly $u_a$ is dominated by both $c_a$ and $r_1$, which is a contradiction i.e. $D$ is not a PCDS of $G$. Similarly, the converse can be proved.\\
+{\textit{Claim 3}:} $\forall x_i, x_i \notin D$.\\
+\textit{Proof of claim.} By contradiction, let there be a vertex $x_a \in D$. Since $G[D]$ is connected, there exists a vertex $c_b \in D$ where $c_b \in N(x_a)$ and from claim 1 and claim 2 it follows that, $u_b \in D$. Let $D' = D\setminus \lbrace p_1,r_1,x_a,c_b,u_b \rbrace$. Clearly $|D'| \leq 2q-3$. To dominate $(X\setminus x_a)$, from claim 2, set $D'$ must contain at least $2q-2$ vertices, which contradicts with our assumption that $|D| \leq 2q+2$.\\
+Thus, it follows that for all $x_i$, $x_i \notin D$.\\
+Let $C'=\lbrace c_i : c_i \in D \rbrace$. From claim 3, a unique $c_j$ dominates each vertex $x_i \in X$, thus $C'$ is a solution of X3C.\\
+Hence PCDOMB is NP-complete.
+\end{proof}
+\end{theorem}
+\section{Complexity of Secure Perfect Connected Domination}
+\noindent
+This section contains the result obtained for finding a minimum SPCDS of $G$ of at most $k$ size is proved NP-complete. Further we also show that for bipartite graphs and star convex bipartite graphs the problem is still NP-complete.
+\subsection{Secure perfect connected domination in arbitrary graphs}
+\noindent
+\noindent Decision version of the secure perfect connected domination problem is defined as follows:\\
+\textbf{SECURE PERFECT CONNECTED DOMINATION (SPCDOM)}\\
+\indent \textbf{Instance :} A simple, undirected, connected graph $G=(V,E)$ and a positive integer $k$.\\
+\indent \textbf{Question :} Is $\gamma_{spc}(G) \leq k$?\\
+For proving the NP-completeness of the SPCDOM, we reduce from the following know NP-complete problem \cite{Yen}.\\
+\textbf{PERFECT DOMINATION (PDOM)}\\
+\indent \textbf{Instance :} A simple, undirected, connected graph $G=(V,E)$ and a positive integer $l$.\\
+\indent \textbf{Question :} Does there exist a PDS of size at most $l$ in $G$?
+%\newtheorem{theorem}{Theorem}
+\begin{theorem}
+SPCDOM is NP-complete.
+\end{theorem}
+\begin{proof}
+First we show that SPCDOM is a member of NP. For a set $S \subseteq V(G)$, each vertex in $V(G) \setminus S$, we can check in polynomial time that a unique vertex in $S$ exists which defends that vertex. Next we show how to reduce an instance of PDOM to an instance of SPCDOM.\smallskip \\ 
+We construct a graph $G^*=(V,E)$ as an instance of SPCDOM from the instance of PCDOM as follows. We add two new vertices and $|V(G)|+1$ new edges in $G^*$ such that $V(G^*)=V(G) \cup \lbrace x,y \rbrace$ and  $E(G^*)=E(G) \cup \lbrace (x,v):x \neq v ~\&~v \in V(G^*) \rbrace$. Hence, the graph $G^*$ can be constructed easily in polynomial time from $G$. Further we show that a PDS of at most $k$ size in $G$ if and only if a SPCDS of at most $k+2$ size in $G^*$.\\
+Let $|D| \leq k$ be a PDS of $G$ and $S=D \cup \lbrace x,y \rbrace$. Clearly $|S| \leq k+2$, $G^*[S]$ is connected and each vertex in $ V(G^*) \setminus S$ is dominated by exactly one vertex in $\{x,y\}$ and exactly one vertex in $S \setminus \{x,y\}$. Also no vertex in $V(G^*) \setminus S$ can be defended by vertices in $\{x,y\}$. Hence a unique vertex in $S$ defends each vertex in $ V(G^*)\setminus S$ in $G^*$. Thus $S$ is a SPCDS of $G^*$.\\
+Conversely, assume $S$ be a SPCDS of $G^*$ with $|S| \leq k+2$. Since $x$ is a cut-vertex and $y$ is a pendant vertex in $G^*$, by proposition 4.2.1, $x,y \in S$. Since $x$ can not defend any vertex in $G^*$, $\forall u \in V(G^*)\setminus S$, a unique vertex $v \in S\setminus \lbrace x,y \rbrace $ must exist such that $(S \setminus \lbrace v \rbrace) \cup \lbrace u \rbrace$ is a CDS of $G^*$ i.e. $v$ is uniquely dominated by $u$. Hence $D = S \setminus \lbrace x,y \rbrace$ is a PDS of $G$ and clearly, $|D| \leq k$.\\
+Hence SPCDOM is NP-complete.
+\end{proof}
+\subsection{Secure perfect connected domination in bipartite graphs}
+\noindent  
+For bipartite graphs, decision version of the secure perfect connected domination problem is defined as follows:\\
+\textbf{SECURE PERFECT CONNECTED DOMINATION BIPARTITE GRAPHS (SPCDOMB)}\\
+\indent \textbf{Instance:} \hspace{1ex}A connected bipartite graph $G=(V,E)$ and a positive integer $k$.\\
+\indent \textbf{Question:} Is $\gamma_{spc}(G) \leq k$?\\
+For proving SPCDOMB is NP-complete, we reduce from EXACT 3 SET COVER.
+
+\begin{theorem}
+SPCDOMB is NP-complete.
+\begin{proof}
+Clearly, SPCDOMB is a member of NP.\\
+\noindent Assume that we have an arbitrary instance of X3C as $X=\lbrace x_1,\ldots ,x_{3q} \rbrace$ and $C=\lbrace c_1, \ldots,c_m \rbrace$. We construct a bipartite graph $G=(V,E)$ from the given instance of X3C as follows. Each element of $X$ create a new vertex in $G$ and each element of $C$ create a path $P_2:u_i-c_i$ in $G$. There is an edge between vertices of $X$ and $C$ if $x_i \in c_j$. Along with these vertices two path $P_2$ namely $p_1-p_2, r_1-r_2$ are added and $p_1$ is made adjacent to each vertex $c_i$ where $1 \leq i \leq m$ and $r_1$ is made adjacent to each vertex $u_i$ where $1 \leq i \leq m$ and $x_j$ where $1 \leq j \leq 3q$. Thus $V = A \cup B$, where $A=\lbrace c_i : 1 \leq i \leq m \rbrace \cup \lbrace p_2, r_1 \rbrace $ and $B=\lbrace x_i : 1 \leq i \leq 3q \rbrace \cup \lbrace u_i : 1 \leq i \leq m \rbrace \cup \lbrace p_1, r_2 \rbrace $; $E=\lbrace (c_i,u_i): 1\leq i \leq m \rbrace \cup \lbrace (c_i,x_j):1 \leq i \leq m$ $,$ $1 \leq j \leq 3q$ $\&$ $ x_j \in c_i \rbrace \cup \lbrace (p_1,c_i), (r_1,u_i): 1\leq i \leq m \rbrace \cup \lbrace (r_1,x_i): 1\leq i \leq 3q \rbrace \cup \lbrace (p_1,p_2),(r_1,r_2),(p_1,r_1) \rbrace $. Clearly the constructed graph $G$ with $|V|=2m+3q+4$ and  $|E|=6m+3q+3$ is a bipartite graph. Thus in polynomial time from an instance of X3C we can construct graph $G$. Further we shall show that X3C has a solution if and only if a SPCDS of at most $k=m+4$ size in $G$.\\
+Let $C'$ be a solution of X3C and let $S = \lbrace c_i:c_i \in C' \rbrace \cup \lbrace u_i:c_i \notin C' \rbrace \cup \lbrace p_1,p_2,r_1,r_2 \rbrace$. Clearly $|S|=m+4$. Each vertex $x_i$, there exist a unique vertex $c_j \in S $ where $(x_i,c_j)\in E$ such that $(S\setminus \lbrace c_j \rbrace) \cup \lbrace x_i \rbrace $ is a CDS of $G$. And each vertex $c_i,u_i\in (V \setminus S)$, a corresponding vertex $u_i,c_i \in S$ exists such that $(S\setminus \lbrace u_i \rbrace) \cup \lbrace c_i \rbrace$ and $(S\setminus \lbrace c_i \rbrace) \cup \lbrace u_i \rbrace $ respectively is a CDS of $G$. Since neighbor of each vertex of $c_i$ contains $p_1$ and neighbor of each vertex of $u_i$ contains $r_1$ and $p_1,r_1$ is also adjacent to each other, $G[S]$ is connected. Hence set $S$ is a SPCDS of $G$.\\
+Conversely, assume that a SPCDS $S$ of size at most $m+4$ in $G$. From proposition 4.2.1, it is clear that $ \lbrace p_1,p_2,r_1,r_2 \rbrace \in S$. Then the following claims hold:\\
+{\textit{Claim 1}:} If $c_i \in S$ then $u_i \notin S$ and vice-versa.\\
+\textit{Proof of claim.} Consider the following cases:\\
+\textbf{Case 1:} By contradiction, assume $\exists c_a, c_a\in S$ and $u_a \in S$. Let $S'=S \setminus \lbrace p_1,p_2,r_1,r_2,c_a,u_a \rbrace$ and $|S'| \leq m-2$. Irrespective of $x_i \in S$, there exist at least one pair $(u_j,c_j) \notin S$ such that $(S \setminus \lbrace r_1 \rbrace ) \cup \lbrace u_j \rbrace $, vertex $r_2$ becomes disconnected which is a contradiction.\\ 
+\textbf{Case 2:} By contradiction, assume $\exists u_a, u_a\in S$ and $c_a \in S$. Let $S'=S \setminus \lbrace p_1,p_2,r_1,r_2,c_a,u_a \rbrace$ and $|S'| \leq m-2$. Similar to case 1, irrespective of $x_i \in S$, there exist at least one pair $(u_j,c_j) \notin S$ such that $(S \setminus \lbrace r_1 \rbrace ) \cup \lbrace u_j \rbrace $, vertex $r_2$ becomes disconnected which is a contradiction.\\ 
+From above case 1,2, it follows that claim holds i.e. if $u_i\in S$ then $c_i \notin S$ and vice-versa.\\
+{\textit{Claim 2}:} $\forall x_i, x_i \notin S$.\\
+\textit{Proof of claim.} By contradiction, assume there exist a vertex $x_a \in S$. Let $S' = S \setminus \lbrace p_1,p_2,r_1,r_2,x_a \rbrace$ and $|S'| \leq m-1$. From claim 1, either $u_j$ or $c_j$ is in $S$. Then there exist at least one pair $(u_k,c_k) \notin S$ such that $(S \setminus \lbrace r_1 \rbrace ) \cup \lbrace u_k \rbrace $, vertex $r_2$ becomes disconnected which is a contradiction.\\ 
+Thus, it follows that the claim holds i.e. for all $x_i$, $x_i \notin S$.\\
+Let $C'=\lbrace c_i : c_i \in S \rbrace$. From claim 2 and 3, each $x_i \in X$ is defended by unique $c_j \in S$, thus $C'$ is a solution of X3C.\\
+Hence SPCDOMB is NP-complete.
+\end{proof}
+\end{theorem}
+\subsection{Secure perfect connected domination in star convex bipartite graphs}
+\noindent 
+Decision version of the secure perfect connected domination problem for star convex bipartite graphs is defined as follows:\\
+\textbf{SECURE PERFECT CONNECTED DOMINATION STAR CONVEX BIPARTITE GRAPHS (SPCDSCB)}\\
+\indent \textbf{Instance:} A simple, undirected, connected graph $G=(V,E)$ and a positive integer $k$.\\
+\indent \textbf{Question:} Is $\gamma_{spc}(G) \leq k$?\\
+For proving the NP-completeness of the SPCDOM, we reduce from the know NP-complete perfect domination problem \cite{Yen}.
+\begin{theorem}
+SPCDSCB is NP-complete.
+\begin{proof}
+Given a subset of vertices is a SPCDS can be verified in polynomial time, hence SPCDSCB is a member of NP.\\
+Given an arbitrary instance of bipartite graph $G=(X,Y,E)$ and positive integer $k$, we construct star convex bipartite graph $G^*=(X^*, Y^*, E^*)$ as follows. Add two path $P_2$ namely $x-x_0$ and $y-y_0$ in graph $G$ and made vertex $x$ adjacent to every vertex belongs to $Y$ and vertex $y$ is made adjacent to every vertex belongs to $X$. Thus $X^*=X \cup \lbrace x_0,x \rbrace$ and $Y^*=Y \cup \lbrace y_0,y \rbrace$; $E^*=E \cup \lbrace (x,v): v \in X \rbrace \cup \lbrace (y,v): v \in Y \rbrace \cup \lbrace (x,y),(x_0,y), (x,y_0) \rbrace$. Clearly the constructed graph $G^*$ is a star convex bipartite graph with star defined on $T=(X,F)$ where $F=((x,v):v \in (X \cup \lbrace x_0 \rbrace)$ as the neighbor of each vertex in $Y$ contains vertex $x$. Further we show that graph a PDS of at most $k$ size in $G$ if and only if a SPCDS of at most $k+4$ size in graph $G^*$.\smallskip \\
+Assume $|D| \leq k$ be a PDS of $G$. Let $S=D \cup \lbrace x_0,x,y_0,y \rbrace$. Clearly $|S| \leq k+4$ and $G^*[S]$ is connected. Since a unique vertex $u \in D$ dominates each vertex in $v \in (V \setminus D)$. Hence each vertex $v \in (V^*\setminus S)$ are defended by a unique vertex $u \in S$. Thus set $S$ of at most $k+4$ size is a SPCDS of $G^*$.\smallskip \\
+Conversely, assume $S$ be a SPCDS of $G^*$ with $|S| \leq k+4$. By proposition 4.2.1, $x_0,x,y_0,y \in S$. Since $x_0$ and $y_0$ can not defends any vertex in $G^*$. Hence $\forall u \in (V^*\setminus S)$, a unique vertex $v \in (S\setminus \lbrace x_0,x,y_0,y \rbrace) $ must exists such that the set $(S \setminus \lbrace v \rbrace) \cup \lbrace u \rbrace$ of $G^*$ is a CDS i.e. $u$ is uniquely dominated by $v$. Hence $D = S \setminus \lbrace x_0,x,y_0,y \rbrace$ is a PDS of $G$ and clearly, $|D| \leq k$.\\
+Hence SPCDSCB is NP-complete.
+\end{proof}
+\end{theorem}
