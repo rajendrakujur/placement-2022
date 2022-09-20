@@ -1,0 +1,563 @@
+---
+title: "Energy Sector of India"
+author: 'Rajendra Kujur'
+date: "26/06/2022"
+output: pdf_document
+geometry: left=1cm,right=1cm,top=1.5cm,bottom=1.5cm
+---
+
+```{r,echo = FALSE, warning=FALSE,message=FALSE}
+library("tidyverse")
+library("xlsx")
+library("knitr")
+library("hrbrthemes")
+library("viridis")
+library("ggthemes")
+library("extrafont")
+library("sf")
+library("showtext")
+library("treemap")
+library("RColorBrewer")
+library("sunburstR")
+library("ggridges")
+library("wesanderson")
+library("scales")
+library("CGPfunctions")
+library("plotly")
+theme_update(plot.title = element_text(hjust = 0.5))
+knitr::opts_chunk$set(warning = FALSE, echo = FALSE,message = FALSE)
+knitr::opts_chunk$set(fig.width=10, fig.height=8)
+opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
+```
+
+# ENERGY DISTRIBUTION IN INDIA ON THE BASIS OF ELECTRICITY GENERATION
+
+```{r}
+dataEnergyBySource<-read.csv(file = "./Data/Electricity Generation by Source_D_2.csv", header = T)
+
+dataEnergyBySource<-dataEnergyBySource[-c(5,10),]
+
+dataEnergyBySource$EnergySource[6] = "BIOMASS"
+
+treemap(dataEnergyBySource, index=c("EnergySource"), vSize="Generation_GWh", vColor= "EnergySource", type="index", palette =  "RdYlGn", fontsize.labels = c(10,10), title = "Energy distribution in Inda")
+
+```
+
+
+# PIE CHART
+
+```{r}
+dataEnergyBySource$DiscreteCapacity<-round(dataEnergyBySource$Generation_GWh)
+
+dataEnergyBySource$DiscreteCapacitypercent<-dataEnergyBySource$DiscreteCapacity/sum(dataEnergyBySource$DiscreteCapacity)
+
+fig <- plot_ly(dataEnergyBySource, labels = ~EnergySource, values = ~DiscreteCapacitypercent, type = 'pie')
+
+fig <- fig %>% layout(title = "Energy Distribution in India",
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+
+is_pdf <- try (("pdf_document" %in% rmarkdown::all_output_formats(knitr::current_input())), silent=TRUE)
+is_pdf <- (is_pdf == TRUE)
+
+if (is_pdf) { export(fig) } else {fig}
+
+```
+
+
+# ALL INDIA SECTOR WISE
+
+```{r}
+
+dataAllIndiaSector<-read.xlsx(file = "./Data/All India Sectorwise Installed Capacity Installed Generation Capacity.xlsx", sheetIndex = 1, startRow = 1)
+
+regionNames<-c("Sector", "Northeren Region", "Westeren Region", "Southeren Region", "Easteren Region", "North Easteren Region", "All India")
+
+colnames(dataAllIndiaSector)<-regionNames
+
+dataAllIndiaSectorLongFormat<-dataAllIndiaSector%>%gather(REGIONS, CapacityinMW, -c(Sector))
+
+dataAllIndiaSectorLongFormatWOallIndia<-dataAllIndiaSectorLongFormat[dataAllIndiaSectorLongFormat$REGIONS != "All India",]
+
+dataAllIndiaSectorLongFormatWOtotal<-dataAllIndiaSectorLongFormatWOallIndia[dataAllIndiaSectorLongFormatWOallIndia$Sector != "Total",]
+
+ggplot(dataAllIndiaSectorLongFormatWOtotal, mapping = aes(x = REGIONS, y = CapacityinMW)) + geom_bar(mapping = aes(color = Sector, fill = Sector),position = "dodge",stat = "identity", width = 0.5)+scale_color_brewer(palette = "Accent") + scale_fill_brewer(palette = "Accent") + theme_clean() + theme(axis.text.x = element_text(angle=0, vjust=0.6)) + labs(title ="All India electriciy distribution region wise" ,x = "Regions of India", y = "Electrical Capacity in MW")+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+
+# MODE WISE DATA
+
+
+```{r}
+dataModeWise<-read.xlsx(file = "./Data/Daily data on sector wise and Mode wise Installed Capacity.xlsx", sheetIndex = 1, startRow = 1)
+
+ggplot(data = dataModeWise, mapping = aes(x = reorder(State, -Installed.Capacity),y = Installed.Capacity)) + geom_bar(mapping = aes(color = Mode, fill = Mode), stat = "identity", width = 0.5) +scale_color_brewer(palette = "Accent",direction = -1, name = "Mode", labels = c("HYDRO", "NUCLEAR", "RENEWABLE ENERGY SOURCE", "THERMAL"))+scale_fill_brewer(palette = "Accent",direction = -1, name = "Mode", labels = c("HYDRO", "NUCLEAR", "RENEWABLE ENERGY SOURCE", "THERMAL")) + theme_clean() + theme(axis.text.x = element_text(angle = 90)) + labs(title ="Distribution of electricity in all states mode wise" ,x = "States of India", y = "Electrical Capacity in MW")+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+# SOURCE WISE DATA
+
+
+```{r}
+dataSourceWise<-read.xlsx(file = "./Data/Source-wise Installed Generation Capacity.xlsx", sheetIndex = 1, startRow = 1)
+
+dataSourceWise$Generation.Capacity..MW.<-as.numeric(dataSourceWise$Generation.Capacity..MW.)
+
+dataSourceWise<-na.omit(dataSourceWise)
+
+dataSourceWiseWOtotal<-dataSourceWise[-c(5,13,14), ]
+
+dataSourceWiseWOtotal$Id<-c(seq(1,11,1))
+
+rownames(dataSourceWiseWOtotal)<-dataSourceWiseWOtotal$Id
+dataSourceWiseWOtotal[9,"Source.Fuel"]<-"Biomass"
+dataSourceWiseWOtotal[10,"Source.Fuel"]<-"Waste to Energy"
+dataSourceWiseWOtotal[11,"Source.Fuel"]<-"Waste to Energy"
+
+dataSourceWiseWOtotal[11,3]<-dataSourceWiseWOtotal[10,3] + dataSourceWiseWOtotal[11,3]
+
+dataSourceWiseWOtotal<-dataSourceWiseWOtotal[-10,]
+
+dataSourceWiseWOtotal$percentageCategory<-dataSourceWiseWOtotal$Generation.Capacity..MW./sum(dataSourceWiseWOtotal$Generation.Capacity..MW.)
+
+
+mycolors <- c(brewer.pal(name="Accent", n = 8), brewer.pal(name="Spectral", n = 6))
+
+ggplot(dataSourceWiseWOtotal, mapping = aes(x = Category, y = percentageCategory)) + geom_bar(mapping = aes(color =  Source.Fuel, fill = Source.Fuel),stat = "identity", width = 0.5)+scale_color_manual(values = mycolors, name = "SOURCES OF FUEL", labels = c("BIOMASS", "COAL", "DIESEL", "NATURAL GAS", "HYDRO", "LIGNITE", "NUCLEAR", "SMALL HYDRO POWER", "WASTE TO ENERGY", "WIND"))+scale_fill_manual(values = mycolors,name = "SOURCES OF FUEL", labels = c("BIOMASS", "COAL", "DIESEL", "NATURAL GAS", "HYDRO", "LIGNITE", "NUCLEAR", "SMALL HYDRO POWER", "WASTE TO ENERGY", "WIND")) + labs(title ="Distribution of electricity in India by sources" ,x = "Sources of Electricity", y = "Electrical Capacity in percentage",color = "Sources of Fuel", fill = "Sources of Fuel")+
+  theme(plot.title = element_text(hjust = 0.5)) + scale_y_percent()
+```
+
+# COMPARISON BETWEEN DIFFERENT TYPES OF FUEL SOURCE USED
+
+```{r,warning=FALSE,message=FALSE}
+dataGenerationBySource<-read.csv(file = "./Data/Electricity Generation by Source_D_20210409_233241.CSV", header = T)
+
+mycolors <- c(brewer.pal(name="Accent", n = 8), brewer.pal(name="Dark2", n = 6))
+
+ggplot(dataGenerationBySource, aes(x = YearValue, y = Generation_GWh, fill = EnergySource)) + geom_area(alpha=0.6 , size=.5, colour="white")+ scale_x_continuous(breaks = c(seq(from = 2006, to = 2020, by = 2)),labels = c(seq(from = 2006, to = 2020, by = 2))) + scale_fill_manual(values = mycolors, name = "Energy Source") + labs(title = "Comparison between different source of fuels", x = "Year", y = "Generation in GWh") + theme_clean()+ theme(legend.position = "bottom",plot.title = element_text(hjust = 0.5))
+```
+
+# COAL RESERVES IN INDIA
+
+```{r}
+states_shape<-rgdal::readOGR("./Data/IND_adm1.shp")
+
+dataCoalReserve2019<-read.csv(file = "./Data/Coal Reserves by State_D_1_NAMECHANGED.csv",header =T)
+
+State_data = data.frame(id=states_shape$ID_1, NAME_1=states_shape$NAME_1, dataCoalReserve2019)
+
+fortify_shape = fortify(states_shape, region = "ID_1")
+
+Merged_data <- merge(fortify_shape, State_data, by="id", all.x=TRUE)
+Map_plot1 = Merged_data[order(Merged_data$order), ]
+
+
+ggplot() +
+  geom_polygon(data = Map_plot1,
+               aes(x = long, y = lat, group = group, fill = QtyInMillionTonnes),color = "black", size = 0.3) + coord_map() + scale_fill_gradient(low="white", high="brown") + theme_void()+
+  theme(plot.title = element_text(hjust = 0.5)) + labs(title = "Coal reserves in India", color = "Quantity in Million tonnes", fill = "Quantity in Million tonnes")
+
+```
+
+
+# COAL CONSUMPTION BY EACH STATE
+
+```{r}
+dataCoalConusmp2019<-read.csv(file = "./Data/Coal Consumption - Domestic by State_D_1.csv")
+
+dataCoalConusmp2019[,3]<-round(dataCoalConusmp2019[,3],0)
+
+dataCoalConusmp2019<-dataCoalConusmp2019[-24,]
+
+dataCoalConusmp2019<-dataCoalConusmp2019[,-c(1)]
+
+dataCoalConusmp2019 %>%
+  arrange(dataCoalConusmp2019$QtyInMillionTonnes)%>% mutate(name=factor(State, levels=State))%>% ggplot( aes(x=name, y=QtyInMillionTonnes)) +
+  geom_segment( aes(xend=name, yend=0)) +
+  geom_point( size=4, color="darkgreen") +
+  coord_flip() +
+  theme_bw()+
+  theme(plot.title = element_text(hjust = 0.5)) + labs(title ="Coal consumption by different states" ,x = "States of India", y = "Quantity in Million Tonnes")
+```
+
+# SLOPE GRAPH
+
+```{r}
+databySource2009<-read.csv(file = "./Data/Electricity Generation by State_D_2009.csv", header = T)
+
+databySource2009<-databySource2009[databySource2009$UtilityCaptive == "UTILITY",]
+
+b<-c("UTTAR PRADESH","MADHYA PRADESH", "MAHARASHTRA", "CHHATTISGARH" )
+
+a<-databySource2009[databySource2009$State %in% b,]
+ca<-a[,-c(1,3,5,6,8)]
+
+
+da <-ca%>%group_by(State,EnergySource) %>% summarize(Generation_GWh = sum(Generation_GWh))
+
+dawide<-spread(da,EnergySource,Generation_GWh)
+
+dawide[is.na(dawide)]<-0
+
+dawide$Year<-rep(2009,4)
+
+
+databySource2019<-read.csv(file = "./Data/Electricity Generation by State_D_2019.csv", header = T)
+
+databySource2019<-databySource2019[databySource2019$UtilityCaptive == "UTILITY",]
+
+b<-c("UTTAR PRADESH","MADHYA PRADESH", "MAHARASHTRA", "CHHATTISGARH" )
+
+a1<-databySource2019[databySource2019$State %in% b,]
+
+ca1<-a1[,-c(1,3,5,6,8)]
+
+
+
+da1 <-ca1%>%group_by(State,EnergySource) %>% summarize(Generation_GWh = sum(Generation_GWh))
+
+dawide1<-spread(da1,EnergySource,Generation_GWh)
+
+dawide1[is.na(dawide1)]<-0
+
+dawide1$Year<-rep(2019,4)
+
+combinedSlopeData<-rbind(dawide, dawide1)
+combinedSlopeData$Year<-as.character(combinedSlopeData$Year)
+
+newggslopegraph(combinedSlopeData, Year, COAL, State, Title = "Electricity from coal", SubTitle = NULL, Caption = NULL,LineThickness = 1,YTextSize = 3,LineColor = c("UTTAR PRADESH" = "darkgreen","MADHYA PRADESH" = "red", "MAHARASHTRA" = "darkblue", "CHHATTISGARH" = "orange")) 
+```
+
+# RENEWABLE COMPARISON CAPACITY WISE
+
+
+```{r}
+dataCapacityrenew2019<-read.csv(file = "./Data/Renewable Electricity Capacity by State_D_1 (2).csv", header = T)
+
+dataCapacityrenew2019Total<-dataCapacityrenew2019%>%group_by(State)%>%summarize(Capacity_MW = sum(Capacity_MW))
+
+ggplot(dataCapacityrenew2019Total, mapping = aes(x = reorder(State, -Capacity_MW), y = Capacity_MW)) + geom_bar(fill="darkgreen",stat = "identity", width = 0.5) + theme(axis.text.x = element_text(angle = 90))+ scale_y_continuous(breaks = c(seq(from = 2000, to = 14000, by = 2000)),labels = c(seq(from = 2000, to = 14000, by = 2000))) + labs(title = " Renewable energy among states capacity wise", x = " States of India", y = "Capacity in MW") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+So now we know Karnataka has the highest renewable energy capacity.\
+
+
+
+# RENEWABLE BY SOURCE
+
+```{r}
+dataCapacityrenew2019<-read.csv(file = "./Data/Renewable Electricity Capacity by State_D_1 (2).csv", header = T)
+
+dataCapacityrenew2019Source<-dataCapacityrenew2019%>%group_by(EnergySource)%>%summarize(Capacity_MW = sum(Capacity_MW))
+
+dataCapacityrenew2019Source %>%
+  arrange(dataCapacityrenew2019Source$Capacity_MW)%>% mutate(name=factor(EnergySource, levels=EnergySource))%>%ggplot(aes(x=EnergySource, y=Capacity_MW)) +
+  geom_segment(aes(x=name,xend=name,yend=0)) +
+  geom_point( size=4, color="darkorange") +
+  theme_bw()+
+  theme(plot.title = element_text(hjust = 0.5)) + labs(title ="Comaparison between different renewable energy sources in India capacity wise" ,x = "Different Renewable Energy types", y = "Capacity in MW")
+```
+
+As we get to know the top 2 capacity wise sources in renewable energy are Solar and Wind.\
+
+
+
+# WIND ENERGY DISTRUBUTION ON MAP
+
+```{r}
+states_shape<-rgdal::readOGR("./Data/IND_adm1.shp")
+
+
+dataCapacityWind2019Source<-read.csv(file = "./Data/Renewable Electricity Capacity by State_D_1 WIND.csv",header =T)
+
+State_data = data.frame(id=states_shape$ID_1, NAME_1=states_shape$NAME_1, dataCapacityWind2019Source)
+
+fortify_shape = fortify(states_shape, region = "ID_1")
+
+Merged_data <- merge(fortify_shape, State_data, by="id", all.x=TRUE)
+Map_plot1 = Merged_data[order(Merged_data$order), ]
+
+
+ggplot() +
+  geom_polygon(data = Map_plot1,
+               aes(x = long, y = lat, group = group, fill = Capacity_MW),color = "black", size = 0.3) + coord_map() + scale_fill_gradient(low="white", high="darkblue") + theme_void()+
+  theme(plot.title = element_text(hjust = 0.5)) + labs(title = "Wind energy capacity in India", color = "Capacity in MW", fill = "Capacity in MW")
+
+```
+
+# SOLAR ENERGY DISTRUBUTION ON MAP
+
+
+```{r}
+states_shape<-rgdal::readOGR("./Data/IND_adm1.shp")
+
+
+dataCapacitySolar2019Source<-read.csv(file = "./Data/Renewable Electricity Capacity by State_D_1 SOLAR.csv",header =T)
+
+State_data = data.frame(id=states_shape$ID_1, NAME_1=states_shape$NAME_1, dataCapacitySolar2019Source)
+
+fortify_shape = fortify(states_shape, region = "ID_1")
+
+Merged_data <- merge(fortify_shape, State_data, by="id", all.x=TRUE)
+Map_plot1 = Merged_data[order(Merged_data$order), ]
+
+
+ggplot() +
+  geom_polygon(data = Map_plot1,
+               aes(x = long, y = lat, group = group, fill = Capacity_MW),color = "black", size = 0.3) + coord_map() + scale_fill_gradient(low="white", high="darkorange") + theme_void()+
+  theme(plot.title = element_text(hjust = 0.5)) + labs(title = "Solar energy capacity in India", color = "Capacity in MW", fill = "Capacity in MW")
+
+```
+
+# GENERATION TREND BY RENEWABLE SOURCE
+
+```{r,warning=FALSE,message=FALSE}
+dataGenerationByRenewSource<-read.csv(file = "./Data/Electricity Generation by Source_D_1 (2).CSV", header = T)
+
+options(scipen=150000)
+ggplot(dataGenerationByRenewSource, aes(x = YearValue, y = Generation_GWh, fill = EnergySource)) + geom_area(alpha=0.6 , size=.5, colour="white") + scale_x_continuous(breaks = c(seq(from = 2006, to = 2020, by = 2)),labels = c(seq(from = 2006, to = 2020, by = 2)))+ scale_y_continuous(breaks = c(seq(from = 25000, to = 150000, by = 25000)),labels = c(seq(from = 25000, to = 150000, by = 25000)))+ scale_fill_viridis(discrete = T, name = "Energy Source")+ labs(title = "Comparison between different renewable energy sources", x = "Year", y = "Generation in GWh") + theme_clean()+ theme(legend.position = "bottom",plot.title = element_text(hjust = 0.5))
+```
+
+
+# GENERATION OF RENEWABLE SHOWN ON MAP
+
+And again for the Whole renewable energy, which comprises of all types, we plot it on the Map of India, to see which states dominate in Renewable energy.
+
+```{r}
+states_shape<-rgdal::readOGR("./Data/IND_adm1.shp")
+
+dataRenewGeneration2019<-read.csv(file = "./Data/Electricity Generation by State_D_Renew1.csv",header =T)
+
+dataRenewGeneration2019<-dataRenewGeneration2019[-25,]
+
+State_data = data.frame(id=states_shape$ID_1, NAME_1=states_shape$NAME_1, dataRenewGeneration2019)
+
+fortify_shape = fortify(states_shape, region = "ID_1")
+
+Merged_data <- merge(fortify_shape, State_data, by="id", all.x=TRUE)
+Map_plot1 = Merged_data[order(Merged_data$order), ]
+
+
+ggplot() +
+  geom_polygon(data = Map_plot1,
+               aes(x = long, y = lat, group = group, fill = Generation_GWh),color = "black", size = 0.3) + coord_map() + scale_fill_gradient(low="white", high="darkgreen") + theme_void()+
+  theme(plot.title = element_text(hjust = 0.5)) + labs(title = "Renewable electricity overall in India by generation", color = "Generation in GWh", fill = "Generation in GWh")
+
+```
+
+
+# RENEWABLE COMPARSION GENERATION AND CAPACITY
+
+```{r}
+compareData<-read.csv(file = "./Data/COMPARISONRENEWGENCONSUMP - Copy.csv")
+
+
+thecolors<-c("COLOR1" = "orange", "COLOR2" =  "darkgreen")
+
+ggplot(compareData) +
+  geom_segment(aes(x=State, xend=State, y=GENERATION, yend=CAPACITY), color="grey") +
+  geom_point(aes(x=State, y=GENERATION),color = "orange", size=2 ) +
+  geom_point(aes(x=State, y=CAPACITY),color = "darkgreen", size=2 )+scale_fill_manual(values=thecolors) +
+  coord_flip() + theme(plot.title = element_text(hjust = 0.5)) + labs(title = "The Gap among generation and capacity among the states in Renewable energy",y = "Percentage", x ="States of India" ,color = "Generation in GWh", fill = "Generation in GWh")
+
+```
+
+
+# PER CAPITA STATE WISE
+
+```{r,eval=FALSE}
+dataPerCapitaState<-read.csv(file = "./Data/Electricity Consumption per Capita by State_D_CORRECT.csv", header = T)
+
+dataPerCapitaState %>%
+  arrange(Consumption_KWh_PerCapita) %>%
+  mutate(State = factor(State, State)) %>%
+  ggplot(aes(x=State, y=Consumption_KWh_PerCapita , size = Population_Millions)) +
+    geom_point(alpha=0.5, color="darkblue") +
+    scale_size(range = c(.1, 10), name="Population in Millions")+ theme(axis.text.x = element_text(angle = 90)) + scale_y_log10() +
+    scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") + labs(title = "Per capita consumption for the year 2019", x = "States", y = "Consumption per capita in KWh") + theme(plot.title = element_text(hjust = 0.5))
+```
+
+# TOTAL CONSUMPTION STATE WISE IN 2019  
+
+```{r}
+wer<-read.csv(file = "./Data/Electricity Consumption by Region_D1_ITEMIZED.csv", header = T)
+
+wer1<-wer%>%group_by(State)%>%summarize(totalConsump = sum(Consumption_GWh))
+wer1<-wer1[-19,]
+
+abc1<-read.csv(file = "./Data/abc.csv", header = T)
+
+options(scipen=150000)
+abc1 %>%
+  arrange(totalConsump) %>%
+  mutate(State = factor(State, State)) %>%
+  ggplot(aes(x=State, y=totalConsump , size = Population_Millions)) +
+  geom_point(alpha=0.5, color="darkblue") +
+  scale_size(range = c(.1, 12), name="Population in Millions")+ theme(axis.text.x = element_text(angle = 90)) + scale_y_log10() +
+  scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") + labs(title = "Comparsion with respect to consumption of states for the year 2019", x = "States", y = "Consumption in GWh")+ theme(legend.position = "bottom",axis.text.x = element_text(angle=90, vjust=0.6),plot.title = element_text(hjust = 0.5))
+
+
+```
+
+
+# PER CAPITA SHOWN ON THE MAP
+
+
+```{r}
+states_shape<-rgdal::readOGR("./Data/IND_adm1.shp")
+
+perCapita2019<-read.csv(file = "./Data/Electricity Consumption per Capita by State_D_CORRECT.csv",header =T)
+
+perCapita2019$consumptionLogScale<-log10(perCapita2019$Consumption_KWh_PerCapita)
+
+perCapita2019$consumptionNaturalLogScale<-log(perCapita2019$Consumption_KWh_PerCapita)
+
+State_data = data.frame(id=states_shape$ID_1, NAME_1=states_shape$NAME_1, perCapita2019)
+
+fortify_shape = fortify(states_shape, region = "ID_1")
+
+Merged_data <- merge(fortify_shape, State_data, by="id", all.x=TRUE)
+Map_plot1 = Merged_data[order(Merged_data$order), ]
+
+
+ggplot() + geom_polygon(data = Map_plot1,aes(x = long, y = lat, group = group, fill = consumptionNaturalLogScale), size = 0.3) + coord_map() + theme_void() + scale_fill_gradient(low="white", high="darkred")  + labs(title = "Per capita energy consumption in India", color = "Per capita consumption in Kwh converted to log scale", fill = "Per capita consumption in Kwh converted to log scale")+ theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+
+
+# CONSUMPTION IN 2019
+
+```{r}
+data2019power<-read.csv(file = "./Data/power consumption 2019 state wise.csv")
+
+statestoRemain<-c('Punjab', 'Haryana', 'Rajasthan', 'Delhi', 'UP','Uttarakhand', 'Gujarat','MP', 'Maharashtra','Andhra Pradesh', 'Telangana', 'Karnataka', 'Kerala', 'Tamil Nadu')
+
+data2019powerSomeStates<-data2019power[(data2019power$States%in%statestoRemain), ]
+
+ggplot(data2019powerSomeStates, mapping = aes(x = Usage , y = States, fill = stat(x))) + geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) + scale_fill_viridis_c(name = "Usage", option = "C") + labs(title = "Consumption of various states over the year 2019")+ theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+# PER CAPITA INCREASE FOR THE TOP 4 HIGHEST CONSUMING STATES
+
+
+```{r}
+dataPerCapitaGrowth<-read.csv(file = "./Data/Electricity Consumption per Capita by State_D_GROWTH.csv", header = T)
+
+ggplot(dataPerCapitaGrowth, mapping = aes(x = YearValue, y = Consumption_KWh_PerCapita)) + geom_line(mapping = aes(color = State), alpha = 0.9, size = 1.5, linetype = 1) + geom_point(shape=21, color="black", fill="#69b3a2", size=2) + theme_wsj()+ scale_colour_wsj("colors6") + scale_x_continuous(breaks = c(seq(from = 2006, to = 2020, by = 2)),labels = c(seq(from = 2006, to = 2020, by = 2))) + scale_y_continuous(breaks = c(seq(from = 2006, to = 2020, by = 2)),labels = c(seq(from = 2006, to = 2020, by = 2))) + scale_y_continuous()
+
+```
+
+# GROWTH IN ELECTRICTY GENERATION BY STATES OVER THE YEARS
+
+```{r}
+dataGenerationByStates<-read.csv(file = "./Data/Electricity Generation by State_D_20.csv", header = T)
+
+ggplot(dataGenerationByStates, mapping = aes(x = YearValue, y = Generation_GWh)) + geom_line(mapping = aes(color = State), alpha = 0.9, size = 1.5, linetype = 1) + geom_point(shape=21, color="black", fill="#69b3a2", size=2) + theme_wsj()+ scale_colour_wsj("colors6") + scale_x_continuous(breaks = c(seq(from = 2006, to = 2020, by = 2)),labels = c(seq(from = 2006, to = 2020, by = 2))) + scale_y_continuous(breaks = c(seq(from = 2006, to = 2020, by = 2)),labels = c(seq(from = 2006, to = 2020, by = 2))) + scale_y_continuous()
+```
+
+# CONSUMPTION BY CONSUMING SECTOR
+
+
+```{r}
+databySector2019<-read.csv(file = "./Data/Electricity Consumption by Consuming Sector_D_NOT ITEMIZED.csv",header = T)
+
+databySector2019$percent<-databySector2019$Consumption_GWh/sum(databySector2019$Consumption_GWh)
+  
+ggplot(data = databySector2019, mapping = aes(x = ConsumingSector,y = percent))+geom_bar(aes(color = ConsumingSector, fill = ConsumingSector),stat = "identity")+ theme_few() + theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) + labs(title ="Distribution of electricity in india consuming sector  wise" ,x = "Consumers of electricity", y = "Electrical Capacity consumed in percentage") + scale_y_continuous(labels = scales::percent)
+
+```
+
+
+# STATES COMPARISON OVER INDUSTRIAL AND RESIDENTIAL LOAD
+
+```{r}
+dataConsumerSector2019<-read.csv(file = "./Data/Electricity Consumption by Consuming Sector_D_1.csv", header = T)
+
+broadCategory<-c("RESIDENTIAL", "INDUSTRIAL")
+
+dataConsumerSector2019a<-dataConsumerSector2019[dataConsumerSector2019$BroadCategory %in% broadCategory,]
+
+def<-dataConsumerSector2019a %>% group_by(State,BroadCategory)%>%summarize(Consumption_GWh = sum(Consumption_GWh))
+
+def1<-def %>% group_by(State)%>%mutate(percentage = Consumption_GWh/sum(Consumption_GWh))%>%arrange(percentage)
+
+def1<-na.omit(def1)
+
+def1<-def1%>%group_by(State)
+
+ggplot(def1, aes(y = Consumption_GWh,x = State, fill = BroadCategory)) + geom_bar(position = "fill", stat = "identity") + scale_y_continuous(labels = scales::percent) +labs(title = "Comparison between Industrial and Residential load among the states", x = "States of India", y = "Percentage Consumption",fill = "CATEGORY") + coord_flip()
+
+```
+
+
+
+# CO2 EMISSIONS PER CAPITA
+
+```{r}
+dataCO2emissionpercapita<-read.csv(file = "./Data/co-emissions-per-capita.CSV", header = T)
+
+dataCO2emissionpercapita<-dataCO2emissionpercapita[dataCO2emissionpercapita$Code == "IND",]
+
+ggplot(dataCO2emissionpercapita, mapping = aes(x = Year, y = Per.capita.CO2.emissions)) + geom_line() + labs(title = "CO2 emissons per capita increase over the years of India", x = "Year", y = "Per capita emission in tonnes") + theme_clean()+ theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+# CO2 EMISSION SECTOR WISE
+
+
+```{r,warning=FALSE,message=FALSE}
+
+dataCO2emissionbyFuelLine<-read.csv(file = "./Data/co2-emissions-by-fuel-line.CSV", header = T)
+
+dataCO2emissionbyFuelLine<-dataCO2emissionbyFuelLine[dataCO2emissionbyFuelLine$Code == "IND",]
+
+dataCO2emissionbyFuelLine<-subset(dataCO2emissionbyFuelLine, select = -c(Entity,Code))
+
+colnames(dataCO2emissionbyFuelLine)<-c("Year","CO2 Emissions from Oil" ,"CO2 Emissions from Flaring","CO2 Emissions from Cement","CO2 Emissions from Coal","CO2 Emissions from Gas","CO2 Emissions from Other Industry")
+
+dataCO2emissionbyFuelLine<-filter(dataCO2emissionbyFuelLine, Year>= 1900 & Year<= 2018)
+
+dataCO2emissionbyFuelLineinLongFormat<-dataCO2emissionbyFuelLine%>%gather(EmissionType, EmissionValue, -c(Year))
+
+
+dataCO2emissionbyFuelLineinLongFormat$EmissionValue[is.na(dataCO2emissionbyFuelLineinLongFormat$EmissionValue)]<-0
+
+dataCO2emissionbyFuelLineinLongFormat<-na.omit(dataCO2emissionbyFuelLineinLongFormat)
+
+dataCO2emissionbyFuelLineinLongFormat$EmissionType <- factor(dataCO2emissionbyFuelLineinLongFormat$EmissionType , levels=c("CO2 Emissions from Coal", "CO2 Emissions from Oil", "CO2 Emissions from Gas", "CO2 Emissions from Cement", "CO2 Emissions from Other Industry"))
+
+ggplot(dataCO2emissionbyFuelLineinLongFormat, aes(x = Year, y = EmissionValue/10^6, fill = EmissionType)) + geom_area(alpha=0.6 , size=.5, colour="white") + scale_fill_viridis(discrete = T, name = "Emission from source")+ scale_x_continuous(breaks = c(seq(from = 1900, to = 2019, by = 50)),labels = c(seq(from = 1900, to = 2019, by = 50)))+ scale_y_continuous(breaks = c(seq(from = 200, to = 2600, by = 200)),labels = c(seq(from = 200, to = 2600, by = 200))) + labs(title = "Comparision between fuel type based on CO2 emission", x = "Years", y = "Emission in Million Tonnes")+ theme_clean() + theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+# GHG EMISSIONS SECTOR WISE
+
+
+```{r}
+dataGHGemission<-read.csv(file = "./Data/ghg-emissions-by-sector.csv", header = T)
+
+dataGHGemission<-dataGHGemission[dataGHGemission$Code == "IND",]
+
+ghgcompare<-c("Year","Agriculture..GHG.Emissions..CAIT.","Industry..GHG.Emissions..CAIT.","Manufacturing.Construction.energy..GHG.Emissions..CAIT.","Transport..GHG.Emissions..CAIT.","Electricity...Heat..GHG.Emissions..CAIT.")
+
+ghgIndia<-dataGHGemission[,ghgcompare]
+
+ggplot(ghgIndia, aes(x=Year)) + 
+  geom_line(aes(y=Agriculture..GHG.Emissions..CAIT./10^9, col="Agriculture")) + 
+  geom_line(aes(y=Industry..GHG.Emissions..CAIT./10^9, col="Industry")) +
+  geom_line(aes(y=Manufacturing.Construction.energy..GHG.Emissions..CAIT./10^9, col="Construction")) + 
+  geom_line(aes(y=Transport..GHG.Emissions..CAIT./10^9, col="Transport")) +
+  geom_line(aes(y=Electricity...Heat..GHG.Emissions..CAIT./10^9, col="Electricity")) + scale_color_manual(name="", values = c("Agriculture"="#00ba38", "Industry"="#f8766d","Construction" = "blue", "Transport"="orange","Electricity" ="darkred")) + 
+  labs(title="Green house gases emissions by various sectors", x = "Years", y="GHG Emission value in billon tonnes") + scale_y_continuous(breaks = c(seq(from = 0.1, to = 1.8, by = 0.2)),labels = c(seq(from = 0.1, to = 1.8, by = 0.2))) + scale_x_continuous(breaks = c(seq(from = 1990, to = 2016, by = 4)),labels = c(seq(from = 1990, to = 2016, by = 4)))+ theme_clean()
+
+```
