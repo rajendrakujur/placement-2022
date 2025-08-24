@@ -1,3 +1,10 @@
+Absolutely! Here's a well-structured **README.md** file tailored for your project:
+**"Statistical Analysis on Factors Influencing Life Expectancy (2022)"**
+
+You can copy-paste this into a `README.md` file for GitHub or your personal portfolio.
+
+---
+
 ```markdown
 # 📊 Statistical Analysis on Factors Influencing Life Expectancy (2022)
 
@@ -157,7 +164,8 @@ life\_expectancy\_analysis/
 
 ## 👤 Author
 
-**Rajendra Kujur**  
+**[Your Name]**  
+MBA Candidate | Data Analyst | Finance Enthusiast  
 Feel free to connect on [LinkedIn](https://linkedin.com/in/your-profile) or check out more projects at [GitHub](https://github.com/your-username)
 
 ---
@@ -171,3 +179,7 @@ Feel free to connect on [LinkedIn](https://linkedin.com/in/your-profile) or chec
 
 ---
 ```
+
+---
+
+Let me know if you want this in `.pdf` format, or want a **condensed 1-page resume bullet version** of this project for job applications.
