@@ -144,9 +144,6 @@ Example of accuracy across kernels (with C=0.6, degree=2):
 
 ## 📌 Author
 
-Developed by \[Your Name] as part of an academic project on machine learning and kernel methods.
+Developed by \[Rajendra Kujur] as part of an academic project on machine learning and kernel methods.
 
 ---
-
-Let me know if you want this in a downloadable `.md` file or if you’d like to customize it further (e.g., add badges, GitHub Actions, Docker setup, etc.).
-
