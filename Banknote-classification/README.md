@@ -1,7 +1,3 @@
-Thanks for sharing the code! Based on the structure and functionality of your notebook, here is a well-organized **README.md** file tailored for your project:
-
----
-
 # 🏦 Banknote Classification Using Multi-Kernel SVM
 
 This project implements and compares multiple Support Vector Machine (SVM) kernel techniques to classify banknotes as genuine or counterfeit using a dataset from the UCI Machine Learning Repository. A unique multi-kernel SVM approach is also explored through the combination of linear, polynomial, and RBF kernels.
@@ -153,3 +149,4 @@ Developed by \[Your Name] as part of an academic project on machine learning and
 ---
 
 Let me know if you want this in a downloadable `.md` file or if you’d like to customize it further (e.g., add badges, GitHub Actions, Docker setup, etc.).
+
