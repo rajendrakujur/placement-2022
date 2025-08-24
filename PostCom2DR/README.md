@@ -1,57 +1,88 @@
-# 🚀 Project: PostCom2DR – Rumor Detection on Twitter Using Post-Comment Graph Networks (2022)
+# 🚀 PostCom2DR – Rumor Detection on Twitter Using Post-Comment Graph Networks (2022)
+
+This project focuses on detecting misinformation on Twitter by leveraging both textual content and conversation dynamics. The model analyzes tweets along with their reply structures to identify rumors using graph-based deep learning.
 
 ---
 
-## ✅ STAR Framework (Interview Explanation)
+## 📌 Project Overview
 
-**S – Situation**  
-During my academic coursework on *Social Media and Data Mining*, I worked with a team of three on a project focused on detecting misinformation on Twitter. The rise of fake news and social manipulation online created an urgent need for intelligent detection models that consider not just content but also conversation dynamics.
-
-**T – Task**  
-Our goal was to build a model that could accurately identify rumors by analyzing both the original tweet and the structure of the replies or comments. Unlike single-layer classifiers, we were asked to design a model that uses advanced deep learning and network-based analysis to understand context.
-
-**A – Action**  
-We developed **PostCom2DR**, a dual-representation model combining a **two-layer Graph Convolutional Network (GCN)** with a **self-attention mechanism**. The model learned both textual and relational features from the tweet and its reply tree. I led the **data engineering pipeline**, cleaning and validating over **9GB of raw Twitter data**, while also collaborating on model architecture in **PyTorch**. Despite limited academic timeframes, we successfully implemented an optimized structure for contextual rumor detection.
-
-**R – Result**  
-The final model demonstrated **improved rumor detection accuracy** compared to baseline methods by leveraging the conversational graph. It showed the potential of combining graph structures with attention to identify misinformation in a scalable way. The project not only enhanced my technical depth but also deepened my understanding of real-time risk signals on social media — directly applicable to finance, crisis management, and digital reputation monitoring.
+* **Objective:** Detect rumors on Twitter by modeling both content and reply-chain structures.
+* **Approach:** Graph-based deep learning using Graph Convolutional Networks (GCNs) and self-attention.
+* **Data Source:** Twitter posts and replies (\~9GB raw data), collected during research for academic purposes.
+* **Tools & Technologies:** Python, PyTorch, NetworkX, Pandas, NumPy.
 
 ---
 
-## 🎯 Interview Questions & Suggested Answers
+## 🧠 Problem Statement
 
-### 1. What was the core objective of this project?
-The primary goal was to design a system that detects rumors on Twitter by analyzing both the original post and the structure of replies. Traditional models treat tweets as isolated text units, but we wanted to incorporate how conversations unfold around them. We built a model that uses a graph-based approach to understand the contextual flow of information, making it more robust in detecting misinformation patterns.
-
-### 2. Why did you use GCNs and self-attention in your architecture?
-Graph Convolutional Networks were ideal for this task because social media discussions form natural graph structures — with tweets as nodes and replies as edges. GCNs enabled the model to capture the propagation behavior of information. We added self-attention to dynamically weigh the importance of replies in influencing the perception of the original post. This made the model more context-aware and better at identifying subtle patterns of misinformation.
-
-### 3. How did you handle the data complexity and volume?
-We worked with a dataset over 9GB in size, which posed real challenges in terms of memory and processing. I took responsibility for designing a scalable preprocessing pipeline that included data validation, null filtering, and content cleaning. To maintain consistency, I applied batch processing and efficient data handling in PyTorch. We didn't have cloud resources, so I optimized workflows to run locally within academic constraints.
-
-### 4. How is this project relevant to business or finance?
-False information about companies, executives, or geopolitical events can impact stock prices within minutes. Models like PostCom2DR can be adapted to monitor, detect, and flag such misinformation early. Hedge funds and market makers can use it for *real-time sentiment risk control*, while PR teams can use it for *reputation management*. The underlying tech can support *regulatory compliance* (e.g., MiFID II, ESG claims) by identifying misleading claims affecting financial stakeholders.
-
-### 5. What challenges did you personally face and how did you manage them?
-One of the biggest challenges was balancing the technical depth of the project with the academic deadlines. The data volume, combined with the complexity of graph-based models, was initially overwhelming. I focused on structuring the preprocessing workflow early on, ensuring clean and structured input to the model. I also contributed to refining the model’s architecture for better scalability. Beyond the technical aspects, I improved my project planning, team communication, and stress management.
-
-### 6. Was the model evaluated or deployed? How did it perform?
-Although the project was academic, we evaluated our model against traditional classifiers and observed improved accuracy and contextual understanding. While I don't recall exact metrics, the integration of graph-based learning with attention mechanisms clearly enhanced the model’s sensitivity to misinformation. If scaled, such a model could be deployed for live monitoring on platforms like Twitter.
-
-### 7. What was your specific contribution to the model?
-I played a leading role in handling the end-to-end data pipeline — managing over 9GB of raw data to transform it into usable format. I also contributed to designing the GCN layers, integrating self-attention, and validating the structure of the conversation graphs. This mix of technical execution and architectural design helped me sharpen my AI development skills, especially for unstructured social data.
+* Traditional rumor detection focuses on individual tweets, ignoring the context of replies and conversation flow.
+* Misinformation often spreads through structured reply threads rather than single messages.
+* The challenge was to design a model capable of capturing both **textual and relational features** for accurate rumor identification.
 
 ---
 
-## 📊 Business & Finance Relevance
+## ⚙️ Methodology & Approach
 
-This project directly applies to several critical areas in business and finance:
+1. **Data Engineering**
 
-* **Market Sentiment Monitoring** – Asset managers and traders rely on social signals to inform decisions. Detecting false narratives early prevents panic trades or poor portfolio moves.  
-* **Reputation Risk Mitigation** – Financial firms and brands can monitor misinformation to reduce reputational damage and align with ESG and compliance requirements.  
-* **Regulatory Compliance & Digital Auditing** – The ability to trace and detect false claims online can serve as a proactive measure for compliance and reporting (e.g., SEC investigations).  
-* **Crisis Management & PR Strategy** – Early detection allows businesses to respond swiftly to disinformation campaigns, especially around earnings calls, product launches, or M&A rumors.  
+   * Cleaned and validated over 9GB of raw Twitter data.
+   * Constructed conversation graphs where tweets are nodes and replies are edges.
+   * Preprocessed text for model input (removing noise, tokenization, embedding preparation).
 
-In an increasingly information-driven financial ecosystem, being able to leverage machine learning to extract insights and control risk from digital conversations is a competitive advantage.
+2. **Model Design**
+
+   * Implemented a **two-layer Graph Convolutional Network (GCN)** to learn relational features.
+   * Integrated a **self-attention mechanism** to weigh influential replies more heavily.
+   * Combined textual embeddings with graph embeddings to form a dual-representation model.
+
+3. **Training & Evaluation**
+
+   * Trained the model on labeled data for rumor vs. non-rumor classification.
+   * Compared performance against baseline text-only models.
+   * Evaluated accuracy and contextual understanding of the conversation graph.
 
 ---
+
+## 📊 Key Concepts & Insights
+
+* **Graph Representation:** Tweets and replies are represented as nodes and edges to model propagation.
+* **Contextual Feature Learning:** GCNs capture structural relationships, while self-attention captures relative importance of replies.
+* **Scalability:** Batch processing and efficient PyTorch pipelines allowed handling large datasets on limited resources.
+* **Applications:** This approach demonstrates potential in **financial sentiment analysis, brand reputation monitoring, and digital risk management**.
+
+---
+
+## 🌐 Potential Business & Finance Applications
+
+* **Market Sentiment Analysis:** Early detection of false news can prevent panic trading or portfolio mismanagement.
+* **Reputation Management:** Companies can monitor rumors affecting executives, products, or services.
+* **Regulatory Compliance:** Identifying misinformation helps ensure ESG reporting and MiFID II compliance.
+* **Crisis Management:** Detecting false narratives during earnings calls, product launches, or geopolitical events.
+
+---
+
+## 📂 Project Structure
+
+```
+PostCom2DR/
+│
+├── data/
+│   └── twitter_raw_data.csv
+├── scripts/
+│   └── preprocessing.py
+│   └── train_model.py
+├── models/
+│   └── gcn_attention_model.pth
+├── notebooks/
+│   └── exploratory_analysis.ipynb
+├── README.md
+└── report.pdf
+```
+
+---
+
+## 📎 References
+
+* Research papers on **rumor detection using GCNs and graph attention networks**.
+* PyTorch and NetworkX documentation.
+* Twitter API documentation for data collection.
