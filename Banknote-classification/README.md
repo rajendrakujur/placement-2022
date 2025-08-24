@@ -27,7 +27,7 @@ This project classifies banknotes based on image features extracted using wavele
 ## 📂 Dataset
 
 * **Source**: UCI Machine Learning Repository
-* **Name**: [Data Banknote Authentication](https://archive.ics.uci.edu/ml/datasets/banknote+authentication)
+* **Name**: [Data Banknote Authentication](https://archive.ics.uci.edu/dataset/267/banknote+authentication)
 * **Size**: 1372 samples, 4 real-valued features
 * **Features**:
 
@@ -147,3 +147,4 @@ Example of accuracy across kernels (with C=0.6, degree=2):
 Developed by \[Rajendra Kujur] as part of an academic project on machine learning and kernel methods.
 
 ---
+
