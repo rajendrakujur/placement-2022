@@ -144,7 +144,8 @@ Example of accuracy across kernels (with C=0.6, degree=2):
 
 ## 📌 Author
 
-Developed by \[Rajendra Kujur] as part of an academic project on machine learning and kernel methods.
+Developed by \Rajendra Kujur as part of an academic project on Banknote Classification using Multi Kernel SVM Learning.
 
 ---
+
 
